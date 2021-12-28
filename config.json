@@ -1,0 +1,18 @@
+{
+  "token": "Redacted",
+  "join_message": "Microwave bot has arrived! (hey check out my website http://microwavebot.tk)",
+  "owners": [
+    398959101322854400,
+    597478415481700377
+  ],
+  "prefix": [
+    "m!",
+    "M!"
+  ],
+  "activity": " m!help ",
+  "activity_type": "3",
+  "status_type": "online",
+  "version": "1.1.1 Help Menu Update",
+  "lastupdate": "DEC 27 2021, 1:50 AM PST",
+  "playing": "F you too express | m!help"
+}
