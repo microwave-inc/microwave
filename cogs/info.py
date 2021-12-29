@@ -70,7 +70,7 @@ class Information(commands.Cog):
 
         embed = discord.Embed(colour=embedColour)
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
-        embed.add_field(name=f"Changelog for version {self.config['version']} (Date updated: {self.config['lastupdate']}", value= "Hello again everyone, today I bring a very important update (if you like embeds) I added a whole new help menu I really hope you all like it as I worked sorta hard on it (but lots of time was saved due to a module I found)... Anyways i hope you all enjoy and merry late christmas (as of the 27th of december)", inline=True)
+        embed.add_field(name=f"Changelog for version {self.config['version']} (Date updated: {self.config['lastupdate']}", value= "Owner only: \n Eval command added \n Fixed reboot command \n\n Public changes: \n Added more 8ball responses", inline=True)
 
         await ctx.send(embed=embed)
 
