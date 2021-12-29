@@ -9,10 +9,10 @@
     "m!",
     "M!"
   ],
-  "activity": " m!help ",
-  "activity_type": "3",
+  "activity": "m!help ",
+  "activity_type": "listening",
   "status_type": "online",
   "version": "1.1.1 Help Menu Update",
   "lastupdate": "DEC 27 2021, 1:50 AM PST",
-  "playing": "F you too express | m!help"
+  "playing": "F you too express | m!help" 
 }

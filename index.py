@@ -24,11 +24,13 @@ bot = Bot(
 
 bot.help_command = PrettyHelp(navigation=menu, color=discord.Colour.purple())
 
+#loads cogs
 for file in os.listdir("cogs"):
     if file.endswith(".py"):
         name = file[:-3]
         bot.load_extension(f"cogs.{name}")
 
+#logs into bot using the tpken in the config folder
 try:
     bot.run(config["token"])
 except Exception as e:
