@@ -14,6 +14,7 @@ from contextlib import redirect_stdout
 from discord.ext import commands
 from utils import permissions, default, http
 
+token = os.getenv("TOKEN")
 owner = permissions.is_owner
 Client = discord.Client()
 
@@ -110,7 +111,7 @@ class Owner(commands.Cog):
         await ctx.send("Rebooting now...")
         os.system("clear")
         await Client.close()
-        await Client.login(self.config['token'], bot=True)
+        await Client.login(token, bot=True)
         await ctx.send("Restart succesful!")
 
     @commands.command()

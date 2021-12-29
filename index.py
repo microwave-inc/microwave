@@ -1,12 +1,15 @@
 import os
 import discord
 import time
-
+import dotenv
+from dotenv import load_dotenv
+load_dotenv()
 from utils import default
 from utils.data import Bot, HelpFormat
 from datetime import datetime
 from pretty_help import DefaultMenu, PrettyHelp
 
+token = os.getenv("TOKEN")
 config = default.config() #used to point login to the token var
 print("Logging in...")
 
@@ -32,6 +35,6 @@ for file in os.listdir("cogs"):
 
 #logs into bot using the tpken in the config folder
 try:
-    bot.run(config["token"])
+    bot.run(token)
 except Exception as e:
     print(f"Error when logging in: {e}")
