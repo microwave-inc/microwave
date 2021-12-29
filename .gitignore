@@ -1,6 +1,8 @@
+.env
+.gitignore
+config.json
 cogs/__pycache__/admin.cpython-37.pyc
 cogs/__pycache__/discord.cpython-37.pyc
-.gitignore
 cogs/__pycache__/encryption.cpython-37.pyc
 cogs/__pycache__/events.cpython-37.pyc
 cogs/__pycache__/fun.cpython-37.pyc
@@ -16,5 +18,4 @@ utils/__pycache__/lists.cpython-37.pyc
 utils/__pycache__/permissions.cpython-37.pyc
 utils/__pycache__/http.cpython-37.pyc
 utils/__pycache__/default.cpython-37.pyc
-.env
-config.json
+
