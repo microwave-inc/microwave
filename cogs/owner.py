@@ -15,6 +15,7 @@ from discord.ext import commands
 from utils import permissions, default, http
 
 owner = permissions.is_owner
+Client = discord.Client()
 
 class Owner(commands.Cog):
     """Owner/dev stuff"""
@@ -102,14 +103,15 @@ class Owner(commands.Cog):
             return await ctx.send(f"Module **{name_maker}** returned error and was not reloaded...\n{error}")
         await ctx.send(f"Reloaded module **{name_maker}**")
 
-#    commands.command()
-#    commands.check(permissions.is_owner)
-#    async def reboot(self, ctx):
-#        """ Reboot the bot """
-#       await ctx.send("Rebooting now...")
-#       os.system("clear")
-#       os.exec(sys.executable, ['python3'] + sys argv)
-#       await ctx.send("Restart succesful!")
+    @commands.command()
+    @commands.check(permissions.is_owner)
+    async def restart(self, ctx):
+        """ Reboot the bot """
+        await ctx.send("Rebooting now...")
+        os.system("clear")
+        await Client.close()
+        await Client.login(self.config['token'], bot=True)
+        await ctx.send("Restart succesful!")
 
     @commands.command()
     @commands.check(owner)
@@ -200,6 +202,7 @@ class Owner(commands.Cog):
         except TypeError:
             await ctx.send("You need to either provide an image URL or upload one with the command")
 
+#source: https://github.com/fourjr/eval-bot/blob/master/examples/cog.py
     @commands.command(name='eval')
     @commands.check(permissions.is_owner)
     async def _eval(self, ctx, *, body):
