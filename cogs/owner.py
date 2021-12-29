@@ -195,12 +195,5 @@ class Owner(commands.Cog):
         except TypeError:
             await ctx.send("You need to either provide an image URL or upload one with the command")
 
-    @commands.command
-    @commands.check(owner)
-    async def test(self, ctx):
-        await ctx.send("test")
-#    else:
-#        await ctx.send("either you are not the owner or something went wrong")
-
 def setup(bot):
     bot.add_cog(Owner(bot))
