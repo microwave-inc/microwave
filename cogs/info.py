@@ -2,6 +2,7 @@ import time
 import discord
 import psutil
 import os
+import requests
 
 from datetime import datetime
 from discord.ext import commands
@@ -72,6 +73,31 @@ class Information(commands.Cog):
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
         embed.add_field(name=f"Changelog for version {self.config['version']} (Date updated: {self.config['lastupdate']}", value= "Owner only: \n Eval command added \n Fixed reboot command \n\n Public changes: \n Added more 8ball responses", inline=True)
 
+        await ctx.send(embed=embed)
+
+#source: https://github.com/Eddy-Arch/Hentai-discord-bot/blob/master/index.py
+    @commands.command(aliases=["covidstat", "covid", "covid-19"])
+    async def coronavirus(self, ctx):
+
+
+        embedColour = discord.Embed.Empty
+        embed = discord.Embed(colour=embedColour)
+        if hasattr(ctx, "guild") and ctx.guild is not None:
+            embedColour = ctx.me.top_role.colour
+        
+        r = requests.get('https://corona-stats.online/' + '?format=json')
+        stats = r.json()['data'][0]['country'], r.json()['data'][0]['cases']
+        world = "worldwide cases:", r.json()['worldStats']['cases'], " cases today: ", r.json()['worldStats']['todayCases'] , " deaths: ", r.json()['worldStats']['deaths'], " died today", r.json()['worldStats']['todayDeaths'], " recovered: ", r.json()['worldStats']['recovered'], " critical: ", r.json()['worldStats']['critical'], " cases per one million: ", r.json()['worldStats']['casesPerOneMillion']
+        embed.set_author(name=r.json()['data'][0]['country'])
+        embed.add_field(value='cases:', name="===========================", inline=False)
+        embed.add_field(value='cases today:', name=r.json()['data'][0]['cases'], inline=False)
+        embed.add_field(value="recovered:", name=r.json()['data'][0]['todayCases'], inline=False)
+        embed.add_field(value="deaths:", name=r.json()['data'][0]['recovered'], inline=False)
+        embed.add_field(value="died today:", name=r.json()['data'][0]['deaths'], inline=False)
+        embed.add_field(value="active:", name=r.json()['data'][0]['todayDeaths'], inline=False)
+        embed.add_field(value="critical condition:", name=r.json()['data'][0]['active'], inline=False)
+        embed.add_field(value=world, name=r.json()['data'][0]['critical'], inline=False)
+        embed.set_author(name=r.json()['data'][0]['country'], icon_url=r.json()['data'][0]['countryInfo']['flag'])
         await ctx.send(embed=embed)
 
 def setup(bot):
