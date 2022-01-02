@@ -3,6 +3,8 @@ import discord
 import psutil
 import os
 import requests
+import locale
+locale.setlocale(locale.LC_ALL, 'en_US.utf8')
 
 from datetime import datetime
 from discord.ext import commands
@@ -94,13 +96,13 @@ class Information(commands.Cog):
             world = "worldwide cases:", r.json()['worldStats']['cases'], " cases today: ", r.json()['worldStats']['todayCases'] , " deaths: ", r.json()['worldStats']['deaths'], " died today", r.json()['worldStats']['todayDeaths'], " recovered: ", r.json()['worldStats']['recovered'], " critical: ", r.json()['worldStats']['critical'], " cases per one million: ", r.json()['worldStats']['casesPerOneMillion']
             embed.set_author(name=r.json()['data'][0]['country'])
             embed.add_field(value='cases:', name="===========================", inline=False)
-            embed.add_field(value='cases today:', name=r.json()['data'][0]['cases'], inline=False)
-            embed.add_field(value="recovered:", name=r.json()['data'][0]['todayCases'], inline=False)
-            embed.add_field(value="deaths:", name=r.json()['data'][0]['recovered'], inline=False)
-            embed.add_field(value="died today:", name=r.json()['data'][0]['deaths'], inline=False)
-            embed.add_field(value="active:", name=r.json()['data'][0]['todayDeaths'], inline=False)
-            embed.add_field(value="critical condition:", name=r.json()['data'][0]['active'], inline=False)
-            embed.add_field(value=world, name=r.json()['data'][0]['critical'], inline=False)
+            embed.add_field(value='cases today:', name=locale.format("%d", r.json()['data'][0]['cases'], grouping=True), inline=False)
+            embed.add_field(value="recovered:", name=locale.format("%d", r.json()['data'][0]['todayCases'], grouping=True), inline=False)
+            embed.add_field(value="deaths:", name=locale.format("%d", r.json()['data'][0]['recovered'], grouping=True), inline=False)
+            embed.add_field(value="died today:", name=locale.format("%d", r.json()['data'][0]['deaths'], grouping=True), inline=False)
+            embed.add_field(value="active:", name=locale.format("%d", r.json()['data'][0]['todayDeaths'], grouping=True), inline=False)
+            embed.add_field(value="critical condition:", name=locale.format("%d", r.json()['data'][0]['active'], grouping=True), inline=False)
+            embed.add_field(value=world, name=locale.format("%d", r.json()['data'][0]['critical'], grouping=True), inline=False)
             embed.set_author(name=r.json()['data'][0]['country'], icon_url=r.json()['data'][0]['countryInfo']['flag'])
             await ctx.send(embed=embed)
 
