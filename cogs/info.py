@@ -77,28 +77,32 @@ class Information(commands.Cog):
 
 #source: https://github.com/Eddy-Arch/Hentai-discord-bot/blob/master/index.py
     @commands.command(aliases=["covidstat", "covid", "covid-19"])
-    async def coronavirus(self, ctx):
+    async def coronavirus(self, ctx, text=''):
+
+        if text == '':
+            await ctx.send("Give a country name please")
+        else:
 
 
-        embedColour = discord.Embed.Empty
-        embed = discord.Embed(colour=embedColour)
-        if hasattr(ctx, "guild") and ctx.guild is not None:
-            embedColour = ctx.me.top_role.colour
+            embedColour = discord.Embed.Empty
+            embed = discord.Embed(colour=embedColour)
+            if hasattr(ctx, "guild") and ctx.guild is not None:
+                embedColour = ctx.me.top_role.colour
         
-        r = requests.get('https://corona-stats.online/' + '?format=json')
-        stats = r.json()['data'][0]['country'], r.json()['data'][0]['cases']
-        world = "worldwide cases:", r.json()['worldStats']['cases'], " cases today: ", r.json()['worldStats']['todayCases'] , " deaths: ", r.json()['worldStats']['deaths'], " died today", r.json()['worldStats']['todayDeaths'], " recovered: ", r.json()['worldStats']['recovered'], " critical: ", r.json()['worldStats']['critical'], " cases per one million: ", r.json()['worldStats']['casesPerOneMillion']
-        embed.set_author(name=r.json()['data'][0]['country'])
-        embed.add_field(value='cases:', name="===========================", inline=False)
-        embed.add_field(value='cases today:', name=r.json()['data'][0]['cases'], inline=False)
-        embed.add_field(value="recovered:", name=r.json()['data'][0]['todayCases'], inline=False)
-        embed.add_field(value="deaths:", name=r.json()['data'][0]['recovered'], inline=False)
-        embed.add_field(value="died today:", name=r.json()['data'][0]['deaths'], inline=False)
-        embed.add_field(value="active:", name=r.json()['data'][0]['todayDeaths'], inline=False)
-        embed.add_field(value="critical condition:", name=r.json()['data'][0]['active'], inline=False)
-        embed.add_field(value=world, name=r.json()['data'][0]['critical'], inline=False)
-        embed.set_author(name=r.json()['data'][0]['country'], icon_url=r.json()['data'][0]['countryInfo']['flag'])
-        await ctx.send(embed=embed)
+            r = requests.get('https://corona-stats.online/' + text + '?format=json')
+            stats = r.json()['data'][0]['country'], r.json()['data'][0]['cases']
+            world = "worldwide cases:", r.json()['worldStats']['cases'], " cases today: ", r.json()['worldStats']['todayCases'] , " deaths: ", r.json()['worldStats']['deaths'], " died today", r.json()['worldStats']['todayDeaths'], " recovered: ", r.json()['worldStats']['recovered'], " critical: ", r.json()['worldStats']['critical'], " cases per one million: ", r.json()['worldStats']['casesPerOneMillion']
+            embed.set_author(name=r.json()['data'][0]['country'])
+            embed.add_field(value='cases:', name="===========================", inline=False)
+            embed.add_field(value='cases today:', name=r.json()['data'][0]['cases'], inline=False)
+            embed.add_field(value="recovered:", name=r.json()['data'][0]['todayCases'], inline=False)
+            embed.add_field(value="deaths:", name=r.json()['data'][0]['recovered'], inline=False)
+            embed.add_field(value="died today:", name=r.json()['data'][0]['deaths'], inline=False)
+            embed.add_field(value="active:", name=r.json()['data'][0]['todayDeaths'], inline=False)
+            embed.add_field(value="critical condition:", name=r.json()['data'][0]['active'], inline=False)
+            embed.add_field(value=world, name=r.json()['data'][0]['critical'], inline=False)
+            embed.set_author(name=r.json()['data'][0]['country'], icon_url=r.json()['data'][0]['countryInfo']['flag'])
+            await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Information(bot))
