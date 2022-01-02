@@ -89,7 +89,7 @@ class Information(commands.Cog):
             if hasattr(ctx, "guild") and ctx.guild is not None:
                 embedColour = ctx.me.top_role.colour
         
-            r = requests.get('https://corona-stats.online/' + text + '?format=json')
+            r = requests.get(f'https://corona-stats.online/{text}?format=json')
             stats = r.json()['data'][0]['country'], r.json()['data'][0]['cases']
             world = "worldwide cases:", r.json()['worldStats']['cases'], " cases today: ", r.json()['worldStats']['todayCases'] , " deaths: ", r.json()['worldStats']['deaths'], " died today", r.json()['worldStats']['todayDeaths'], " recovered: ", r.json()['worldStats']['recovered'], " critical: ", r.json()['worldStats']['critical'], " cases per one million: ", r.json()['worldStats']['casesPerOneMillion']
             embed.set_author(name=r.json()['data'][0]['country'])
