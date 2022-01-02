@@ -71,7 +71,7 @@ class Information(commands.Cog):
 
         embed = discord.Embed(colour=embedColour)
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
-        embed.add_field(name=f"Changelog for version {self.config['version']} (Date updated: {self.config['lastupdate']}", value= "Owner only: \n Eval command added \n Fixed reboot command \n\n Public changes: \n Added more 8ball responses", inline=True)
+        embed.add_field(name=f"Changelog for version {self.config['version']} (Date updated: {self.config['lastupdate']}", value= "Made the covid command allow all contry's (an example is: ``m!covid US`` or ``m!covid United States``", inline=True)
 
         await ctx.send(embed=embed)
 
