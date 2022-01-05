@@ -79,32 +79,30 @@ class Information(commands.Cog):
 
 #source: https://github.com/Eddy-Arch/Hentai-discord-bot/blob/master/index.py
     @commands.command(aliases=["covidstat", "covid", "covid-19"])
-    async def coronavirus(self, ctx, text=''):
+    async def coronavirus(self, ctx, otext=''):
 
-        if text == '':
-            await ctx.send("Give a country name please")
-        else:
+        if otext == '': text = 'USA'
+        else: text = otext
 
-
-            embedColour = discord.Embed.Empty
-            embed = discord.Embed(colour=embedColour)
-            if hasattr(ctx, "guild") and ctx.guild is not None:
-                embedColour = ctx.me.top_role.colour
-        
-            r = requests.get(f'https://corona-stats.online/{text}?format=json')
-            stats = r.json()['data'][0]['country'], r.json()['data'][0]['cases']
-            world = "worldwide cases:", r.json()['worldStats']['cases'], " cases today: ", r.json()['worldStats']['todayCases'] , " deaths: ", r.json()['worldStats']['deaths'], " died today", r.json()['worldStats']['todayDeaths'], " recovered: ", r.json()['worldStats']['recovered'], " critical: ", r.json()['worldStats']['critical'], " cases per one million: ", r.json()['worldStats']['casesPerOneMillion']
-            embed.set_author(name=r.json()['data'][0]['country'])
-            embed.add_field(value='cases:', name="===========================", inline=False)
-            embed.add_field(value='cases today:', name=locale.format("%d", r.json()['data'][0]['cases'], grouping=True), inline=False)
-            embed.add_field(value="recovered:", name=locale.format("%d", r.json()['data'][0]['todayCases'], grouping=True), inline=False)
-            embed.add_field(value="deaths:", name=locale.format("%d", r.json()['data'][0]['recovered'], grouping=True), inline=False)
-            embed.add_field(value="died today:", name=locale.format("%d", r.json()['data'][0]['deaths'], grouping=True), inline=False)
-            embed.add_field(value="active:", name=locale.format("%d", r.json()['data'][0]['todayDeaths'], grouping=True), inline=False)
-            embed.add_field(value="critical condition:", name=locale.format("%d", r.json()['data'][0]['active'], grouping=True), inline=False)
-            embed.add_field(value=world, name=locale.format("%d", r.json()['data'][0]['critical'], grouping=True), inline=False)
-            embed.set_author(name=r.json()['data'][0]['country'], icon_url=r.json()['data'][0]['countryInfo']['flag'])
-            await ctx.send(embed=embed)
+        embedColour = discord.Embed.Empty
+        embed = discord.Embed(colour=embedColour)
+        if hasattr(ctx, "guild") and ctx.guild is not None:
+            embedColour = ctx.me.top_role.colour
+    
+        r = requests.get(f'https://corona-stats.online/{text}?format=json')
+        # stats = r.json()['data'][0]['country'], r.json()['data'][0]['cases']
+        # world = "worldwide cases:", r.json()['worldStats']['cases'], " cases today: ", r.json()['worldStats']['todayCases'] , " deaths: ", r.json()['worldStats']['deaths'], " died today", r.json()['worldStats']['todayDeaths'], " recovered: ", r.json()['worldStats']['recovered'], " critical: ", r.json()['worldStats']['critical'], " cases per one million: ", r.json()['worldStats']['casesPerOneMillion']
+        embed.set_author(name=r.json()['data'][0]['country'], icon_url=r.json()['data'][0]['countryInfo']['flag'])
+        embed.add_field(value='cases:', name="===========================", inline=False)
+        embed.add_field(value='cases today:', name=locale.format("%d", r.json()['data'][0]['cases'], grouping=True), inline=False)
+        embed.add_field(value="recovered:", name=locale.format("%d", r.json()['data'][0]['todayCases'], grouping=True), inline=False)
+        embed.add_field(value="deaths:", name=locale.format("%d", r.json()['data'][0]['recovered'], grouping=True), inline=False)
+        embed.add_field(value="died today:", name=locale.format("%d", r.json()['data'][0]['deaths'], grouping=True), inline=False)
+        embed.add_field(value="active:", name=locale.format("%d", r.json()['data'][0]['todayDeaths'], grouping=True), inline=False)
+        embed.add_field(value="critical condition:", name=locale.format("%d", r.json()['data'][0]['active'], grouping=True), inline=False)
+        embed.add_field(value='world cases:', name=locale.format("%d", r.json()['data'][0]['critical'], grouping=True), inline=False)
+        embed.set_footer(text=locale.format("%d", r.json()['worldStats']['cases'], grouping=True))
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Information(bot))

@@ -5,3 +5,4 @@ config.json
 unused/
 utils/__pycache__/
 cogs/__pycache__
+venv
