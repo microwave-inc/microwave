@@ -6,3 +6,4 @@ utils/__pycache__/
 cogs/__pycache__
 venv
 .env
+config.json

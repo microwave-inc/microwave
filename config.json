@@ -1,5 +1,5 @@
 {
-  "join_message": "Microwave bot has arrived! (hey check out my website http://microwavebot.tk)",
+  "join_message": "Microwave bot has arrived! use ``m!help`` for help",
   "owners": [
     398959101322854400,
     597478415481700377,
@@ -9,7 +9,7 @@
     "m!",
     "M!"
   ],
-  "activity": "m!help ",
+  "activity": "m!help | My crush knows I like her :skull:",
   "activity_type": "listening",
   "status_type": "online",
   "version": "1.1.2",
