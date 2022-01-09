@@ -3,3 +3,5 @@ psutil
 timeago==1.0.13
 python-dotenv
 discord-pretty-help
+dotenv
+dotenv-python
