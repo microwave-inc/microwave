@@ -1,7 +1,6 @@
 import os
 import discord
 import time
-import dotenv
 from dotenv import load_dotenv
 load_dotenv()
 from utils import default
