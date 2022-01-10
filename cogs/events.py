@@ -78,7 +78,7 @@ class Events(commands.Cog):
 
         await self.bot.change_presence(
             activity=discord.Game(
-                type=activity_type.get(activity, 3), name=self.config["activity"]
+                type=activity_type.get(activity, 2), name=self.config["activity"]
             ),
             status=status_type.get(status, discord.Status.online)
         )
