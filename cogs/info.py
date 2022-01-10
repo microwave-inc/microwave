@@ -85,6 +85,7 @@ class Information(commands.Cog):
 #source: https://github.com/Eddy-Arch/Hentai-discord-bot/blob/master/index.py heavily modded
     @commands.command(aliases=["covidstat", "covid", "covid-19"])
     async def coronavirus(self, ctx, otext=''):
+        """Gives you covid-19 stats on a country (must be a valid name or abreviation"""
 
         if otext == '': text = 'USA'
         else: text = otext
