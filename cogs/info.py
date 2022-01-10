@@ -45,15 +45,20 @@ class Information(commands.Cog):
         embed = discord.Embed(colour=embedColour)
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
         embed.add_field(
-            name=f"Developer/Owner{'' if len(self.config['owners']) == 1 else 's'}",
-            value=", ".join([str(self.bot.get_user(x)) for x in self.config["owners"]]),
+            name=f"Developer{'' if len(self.config['devs']) == 1 else 's'}",
+            value=", ".join([str(self.bot.get_user(x)) for x in self.config["devs"]]),
+            inline=True
+        )
+        embed.add_field(
+            name=f"Owner{'' if len(self.config['trueowners']) == 1 else 's'}",
+            value=", ".join([str(self.bot.get_user(x)) for x in self.config["trueowners"]]),
             inline=True
         )
         embed.add_field(name="Library", value="discord.py", inline=True)
         embed.add_field(name="Servers", value=f"{len(ctx.bot.guilds)} (avg: {avgmembers:,.2f} users/server)", inline=True)
         embed.add_field(name="Commands loaded", value=len([x.name for x in self.bot.commands]), inline=True)
         embed.add_field(name="RAM", value=f"{ramUsage:.2f} MB", inline=True)
-        embed.add_field(name='Website', value="http://microwavebot.tk", inline=True)
+        embed.add_field(name='Website', value="being changed", inline=True)
 
         await ctx.send(content=f"ℹ About **{ctx.bot.user}** | **{self.config['version']}** | updated: **{self.config['lastupdate']}**", embed=embed)
 
@@ -77,7 +82,7 @@ class Information(commands.Cog):
 
         await ctx.send(embed=embed)
 
-#source: https://github.com/Eddy-Arch/Hentai-discord-bot/blob/master/index.py
+#source: https://github.com/Eddy-Arch/Hentai-discord-bot/blob/master/index.py heavily modded
     @commands.command(aliases=["covidstat", "covid", "covid-19"])
     async def coronavirus(self, ctx, otext=''):
 
