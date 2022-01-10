@@ -147,7 +147,7 @@ class Owner(commands.Cog):
         try:
             await self.bot.change_presence(
                 activity=discord.Game(
-                    type=activity_type.get(activity, 0), name=playing
+                    type=activity_type.get(activity, 2), name=playing
                 ),
                 status=status_type.get(status, discord.Status.online)
             )
@@ -157,16 +157,6 @@ class Owner(commands.Cog):
             await ctx.send(err)
         except Exception as e:
             await ctx.send(e)
-
-    @change.command(name="username")
-    @commands.check(permissions.is_owner)
-    async def change_username(self, ctx, *, name: str):
-        """ Change username. """
-        try:
-            await self.bot.user.edit(username=name)
-            await ctx.send(f"Successfully changed username to **{name}**")
-        except discord.HTTPException as err:
-            await ctx.send(err)
 
     @change.command(name="nickname")
     @commands.check(permissions.is_owner)
