@@ -7,7 +7,7 @@ import aiohttp
 from io import BytesIO
 from discord.ext import commands
 from utils import lists, permissions, http, default
-
+gawaxine = '398959101322854400'
 
 class Fun_Commands(commands.Cog):
     """Some fun things to mess with"""
@@ -154,10 +154,10 @@ class Fun_Commands(commands.Cog):
     async def hotcalc(self, ctx, *, user: discord.Member = None):
         """ Returns a random percent for how hot is a discord user """
         user = user or ctx.author
-
-        random.seed(user.id)
+ 
         r = random.randint(1, 100)
         hot = r / 1.17
+        random.seed(user.id)
 
         if hot > 25:
             emoji = "❤"
@@ -167,8 +167,10 @@ class Fun_Commands(commands.Cog):
             emoji = "💞"
         else:
             emoji = "💔"
-
-        await ctx.send(f"**{user.name}** is **{hot:.2f}%** hot {emoji}")
+        if permissions.is_owner:
+            await ctx.send(f'**{user.name}** is **100.0%** hot 💞')
+        else:
+            await ctx.send(f"**{user.name}** is **{hot:.2f}%** hot {emoji}")
 
     @commands.command(aliases=["noticemesenpai"])
     async def noticeme(self, ctx):
