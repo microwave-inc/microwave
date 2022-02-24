@@ -58,7 +58,7 @@ class Information(commands.Cog):
         embed.add_field(name="Servers", value=f"{len(ctx.bot.guilds)} (avg: {avgmembers:,.2f} users/server)", inline=True)
         embed.add_field(name="Commands loaded", value=len([x.name for x in self.bot.commands]), inline=True)
         embed.add_field(name="RAM", value=f"{ramUsage:.2f} MB", inline=True)
-        embed.add_field(name='Website', value="being changed", inline=True)
+        embed.add_field(name='Website', value="[click here](https://microwavebot.tech)", inline=True)
 
         await ctx.send(content=f"ℹ About **{ctx.bot.user}** | **{self.config['version']}** | updated: **{self.config['lastupdate']}**", embed=embed)
 
@@ -78,7 +78,7 @@ class Information(commands.Cog):
 
         embed = discord.Embed(colour=embedColour)
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
-        embed.add_field(name=f"Changelog for version {self.config['version']} (Date updated: {self.config['lastupdate']}", value= "Made the covid command allow all contry's (an example is: ``m!covid US`` or ``m!covid United States``", inline=True)
+        embed.add_field(name=f"Changelog for version {self.config['version']} (Date updated: {self.config['lastupdate']}", value= "Changed small things", inline=True)
 
         await ctx.send(embed=embed)
 
