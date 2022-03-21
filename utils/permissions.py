@@ -3,7 +3,7 @@ import discord
 from utils import default
 from discord.ext import commands
 
-owners = default.config()["owners"]
+owners = default.config()["devperms"]
 
 
 def is_owner(ctx):
