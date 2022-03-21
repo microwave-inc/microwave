@@ -110,5 +110,18 @@ class Information(commands.Cog):
         embed.set_footer(text=locale.format("%d", r.json()['worldStats']['cases'], grouping=True))
         await ctx.send(embed=embed)
 
+    @commands.command(aliases=["nasa", "spacepics"])
+    async def apod(self, ctx):
+        embedColour = discord.Embed.Empty
+        embed = discord.Embed(colour=embedColour)
+        if hasattr(ctx, "guild") and ctx.guild is not None:
+            embedColour = ctx.me.top_role.colour
+
+        r = requests.get('https://api.nasa.gov/planetary/apod?api_key=KspOIlQr0biuG1l63aOeilgdlQr4bSE0tp3UQ4aH')
+        embed.set_author(name=r.json()['copyright']',')
+        embed.add_field(value="date:", name=r.json()['date'])
+        embed.set_image(url=r.json()['url'])
+        embed.set_footer(text="API supplied by nasa, [click here for github repo](https://github.com/nasa/apod-api)")
+
 def setup(bot):
     bot.add_cog(Information(bot))
