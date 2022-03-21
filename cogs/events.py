@@ -29,7 +29,7 @@ class Events(commands.Cog):
                     "Both error and command will be ignored."
                 )
 
-            await ctx.send(f"There was an error processing the command ;-;\n{error}")
+            await ctx.send(f"There was an error processing the command ;-;\nplease email help@microwavebot.tech a screenshot of the error and we will fix it asap\n{error}")
 
         elif isinstance(err, errors.CheckFailure):
             pass
