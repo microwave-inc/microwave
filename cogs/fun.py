@@ -167,7 +167,7 @@ class Fun_Commands(commands.Cog):
             emoji = "💞"
         else:
             emoji = "💔"
-        if user.id in self.config['owners']:
+        if user.id in self.config['devperms']:
             return await ctx.send(f'**{user.name}** is **100.0%** hot 💞')
         else:
             await ctx.send(f"**{user.name}** is **{hot:.2f}%** hot {emoji}")

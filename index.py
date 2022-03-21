@@ -17,7 +17,7 @@ menu = DefaultMenu('◀️', '▶️', '❌') #used for menu nav
 
 bot = Bot(
     command_prefix=config["prefix"], prefix=config["prefix"],
-    owner_ids=config["owners"], command_attrs=dict(hidden=True), help_command=HelpFormat(),
+    owner_ids=config["devperms"], command_attrs=dict(hidden=True), help_command=HelpFormat(),
     allowed_mentions=discord.AllowedMentions(roles=False, users=True, everyone=False),
     intents=discord.Intents(
         guilds=True, members=True, messages=True, reactions=True, presences=True

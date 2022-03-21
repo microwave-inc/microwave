@@ -262,7 +262,7 @@ class Moderator(commands.Cog):
     @commands.command()
     async def amiadmin(self, ctx):
         """ Are you an admin? """
-        if ctx.author.id in self.config["owners"]:
+        if ctx.author.id in self.config["devperms"]:
             return await ctx.send(f"Yes **{ctx.author.name}** you are an admin! ✅")
             
     
