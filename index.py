@@ -7,7 +7,7 @@ from utils import default
 from utils.data import Bot, HelpFormat
 from datetime import datetime
 from pretty_help import DefaultMenu, PrettyHelp
-color = discord.Color.white()
+color = discord.Color.from_rgb(255,255,255)
 token = os.getenv("TOKEN")
 config = default.config() #used to point login to the token var
 print("Logging in...")
