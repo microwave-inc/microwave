@@ -123,6 +123,7 @@ class Information(commands.Cog):
         embed.add_field(value="Date:", name=r.json()['date'])
         embed.set_image(url=r.json()['url'])
         embed.set_footer(text="API supplied by nasa, [click here for github repo](https://github.com/nasa/apod-api)")
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Information(bot))
