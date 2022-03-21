@@ -24,7 +24,7 @@ bot = Bot(
     )
 )
 
-bot.help_command = PrettyHelp(navigation=menu, color=discord.Colour.white())
+bot.help_command = PrettyHelp(navigation=menu, color=discord.Colour.White())
 
 #loads cogs
 for file in os.listdir("cogs"):
