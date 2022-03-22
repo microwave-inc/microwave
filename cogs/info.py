@@ -120,10 +120,11 @@ class Information(commands.Cog):
             embedColour = ctx.me.top_role.colour
 
         r = requests.get(f'https://api.nasa.gov/planetary/apod?api_key={apikey}')
-        embed.set_author(name=r.json()['copyright'])
-        embed.add_field(name="Image name:", value=r.json()['title'])
+        embed.set_author(name=r.json()['title']
+        embed.add_field(name="Copyright:", value=r.json()['copyright'])
         embed.add_field(name="Date:", value=r.json()['date'])
         embed.set_image(url=r.json()['url'])
+        embed.add_field(name:"Photo Description:", value=r.json)['explanation']
         embed.set_footer(text="API supplied by nasa")
         await ctx.send(embed=embed)
 
