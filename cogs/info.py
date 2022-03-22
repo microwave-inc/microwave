@@ -124,7 +124,7 @@ class Information(commands.Cog):
         embed.add_field(name="Copyright:", value=r.json()['copyright'])
         embed.add_field(name="Date:", value=r.json()['date'])
         embed.set_image(url=r.json()['url'])
-        embed.add_field(name:"Photo Description:", value=r.json)['explanation'])
+        embed.add_field(name="Photo Description:", value=r.json)['explanation'])
         embed.set_footer(text="API supplied by nasa")
         await ctx.send(embed=embed)
 
