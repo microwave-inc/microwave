@@ -285,7 +285,7 @@ class Owner(commands.Cog):
 
     @commands.command()
     @commands.check(permissions.is_owner)
-    async def shutdown(ctx):
+    async def shutdown(self, ctx):
         """Restarts the bot"""
         await ctx.send("restarting")
         await asyncio.sleep(3)
