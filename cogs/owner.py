@@ -294,7 +294,8 @@ class Owner(commands.Cog):
         await asyncio.sleep(3)
         await Client.close()
         os.execl(sys.executable, sys.executable, * sys.argv)
-        os.system("git pull | python3 ~/Documents/microwave/index.py")
+        os.system("git pull")
+        os.system("python3 ~/Documents/microwave/index.py")
             
 def setup(bot):
     bot.add_cog(Owner(bot))
