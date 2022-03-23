@@ -288,7 +288,7 @@ class Owner(commands.Cog):
 #https://stackoverflow.com/questions/60101693/discord-py-message-author-id-returns-traceback
     @commands.command()
     @commands.check(permissions.is_owner)
-    async def shutdown(self, ctx):
+    async def restart(self, ctx):
         """Restarts the bot"""
         await ctx.send("restarting")
         await asyncio.sleep(3)
