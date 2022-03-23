@@ -283,19 +283,6 @@ class Owner(commands.Cog):
             await ctx.message.add_reaction('\u2049')  # x
         else:
             await ctx.message.add_reaction('\u2705')
-
-#found while searching fopr something else
-#https://stackoverflow.com/questions/60101693/discord-py-message-author-id-returns-traceback
-    @commands.command()
-    @commands.check(permissions.is_owner)
-    async def update(self, ctx):
-        """Restarts the bot"""
-        await ctx.send("updating")
-        os.execl(sys.executable, sys.executable, * sys.argv)
-        os.system("git pull")
-        await reloadall
-        await reloadutils
-        await ctx.send("everything reloaded")
             
 def setup(bot):
     bot.add_cog(Owner(bot))
