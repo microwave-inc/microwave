@@ -285,8 +285,8 @@ class Owner(commands.Cog):
 
 @commands.command()
 @commands.check(permissions.is_owner)
-"""Restarts the bot"""
 async def shutdown(ctx):
+    """Restarts the bot"""
         embed = discord.Embed(color = discord.Color.from_rgb(255,255,255))
         embed.add_field(name="Shutdown Command Sent, Bot Rebooting in 3 seconds", value = str, inline = False)
         await ctx.send(embed=embed)
