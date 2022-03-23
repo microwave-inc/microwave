@@ -288,14 +288,15 @@ class Owner(commands.Cog):
 #https://stackoverflow.com/questions/60101693/discord-py-message-author-id-returns-traceback
     @commands.command()
     @commands.check(permissions.is_owner)
-    async def restart(self, ctx):
+    async def update(self, ctx):
         """Restarts the bot"""
         await ctx.send("restarting")
         await asyncio.sleep(3)
         await Client.close()
         os.execl(sys.executable, sys.executable, * sys.argv)
         os.system("git pull")
-        os.system("python3 ~/Documents/microwave/index.py")
+        reloadall
+        reloadutils
             
 def setup(bot):
     bot.add_cog(Owner(bot))
