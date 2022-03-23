@@ -4,6 +4,7 @@ import psutil
 import os
 import requests
 import locale
+import random
 locale.setlocale(locale.LC_ALL, 'en_US.utf8')
 
 from datetime import datetime
@@ -116,8 +117,13 @@ class Information(commands.Cog):
     async def apod(self, ctx):
         embedColour = discord.Embed.Empty
         embed = discord.Embed(colour=embedColour)
+        #random color if in guild
+        r = random.randint(0, 255);b = random.randint(0, 255);g = random.randint(0, 255)
         if hasattr(ctx, "guild") and ctx.guild is not None:
-            embedColour = ctx.me.top_role.colour
+            embedColour = discord.Color.from_rgb(r,g,b)
+        else:
+            #color white if in DM
+            embedColour = discord.Color.from_rgb(255,255,255)
 
         r = requests.get(f'https://api.nasa.gov/planetary/apod?api_key={apikey}')
         embed.set_author(name=r.json()['title'])
@@ -125,7 +131,7 @@ class Information(commands.Cog):
         embed.add_field(name="Date:", value=r.json()['date'])
         embed.set_image(url=r.json()['url'])
         #embed.add_field(name="Photo Description:", value=r.json()['explanation'], inline=True)
-        embed.set_footer(text="API supplied by nasa")
+        embed.set_footer(text="API supplied by nasa, requested by <@{ctx.author.id}>")
         await ctx.send(embed=embed)
 
 def setup(bot):
