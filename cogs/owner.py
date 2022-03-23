@@ -10,6 +10,7 @@ import io
 import textwrap
 import traceback
 from contextlib import redirect_stdout
+import asyncio
 
 from discord.ext import commands
 from utils import permissions, default, http
@@ -283,6 +284,8 @@ class Owner(commands.Cog):
         else:
             await ctx.message.add_reaction('\u2705')
 
+#found while searching fopr something else
+#https://stackoverflow.com/questions/60101693/discord-py-message-author-id-returns-traceback
     @commands.command()
     @commands.check(permissions.is_owner)
     async def shutdown(self, ctx):
