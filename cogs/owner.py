@@ -291,8 +291,6 @@ class Owner(commands.Cog):
     async def update(self, ctx):
         """Restarts the bot"""
         await ctx.send("updating")
-        await asyncio.sleep(3)
-        await Client.close()
         os.execl(sys.executable, sys.executable, * sys.argv)
         os.system("git pull")
         await reloadall
