@@ -131,7 +131,7 @@ class Information(commands.Cog):
         embed.add_field(name="Date:", value=r.json()['date'])
         embed.set_image(url=r.json()['url'])
         #embed.add_field(name="Photo Description:", value=r.json()['explanation'], inline=True)
-        embed.set_footer(text="API supplied by nasa, requested by <@{ctx.author.id}>")
+        embed.set_footer(text=f"API supplied by nasa, requested by <@{ctx.author.id}>")
         await ctx.send(embed=embed)
 
 def setup(bot):
