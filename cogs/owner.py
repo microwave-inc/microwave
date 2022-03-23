@@ -282,6 +282,18 @@ class Owner(commands.Cog):
             await ctx.message.add_reaction('\u2049')  # x
         else:
             await ctx.message.add_reaction('\u2705')
+
+@commands.command()
+@commands.check(permissions.is_owner)
+"""Restarts the bot"""
+async def shutdown(ctx):
+        embed = discord.Embed(color = discord.Color.from_rgb(255,255,255))
+        embed.add_field(name="Shutdown Command Sent, Bot Rebooting in 3 seconds", value = str, inline = False)
+        await ctx.send(embed=embed)
+        await asyncio.sleep(3)
+        await bot.close()
+        os.execl(sys.executable, sys.executable, * sys.argv)
+        os.system("git pull | python3 ~/Documents/microwave/index.py")
             
 def setup(bot):
     bot.add_cog(Owner(bot))
