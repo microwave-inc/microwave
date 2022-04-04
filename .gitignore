@@ -4,8 +4,7 @@ config.json
 unused/
 utils/__pycache__/
 cogs/__pycache__
-keep_alive.py
-__pycache__/
+__pycache__/keep_alive.cpython-39.pyc
 venv
 .env
 config.json

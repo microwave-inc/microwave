@@ -1,5 +1,5 @@
 # Welcome to Microwave bot's official repo
-Here you will find many things you can use for your bot, if you want to make a optimization let one of the dev's know (yapudjus or galaxine)
+Here you will find many things you can use for your bot, have an issue? shoot us an [email](mailto:help@microwavebot.tech) or open an issue
 
 # Table Of Contents
 
@@ -9,9 +9,15 @@ Here you will find many things you can use for your bot, if you want to make a o
 
 - N/A
 
-# More info
+# Dev's
 
-- N/A
+Founder/Head of Bot Development [Galaxine](https://github.com/galaxine-senpai)
+
+Assistant Head of Bot Development [Fonta22](https://github.com/Fonta22)
+
+Bot Developer [yapudjus](https://github.com/yapudjus)
+
+Bot Developer [Sopy](https://github.com/sopyb)
 
 # Badge Stuff
 

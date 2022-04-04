@@ -12,7 +12,7 @@ from datetime import datetime
 from pretty_help import DefaultMenu, PrettyHelp
 color = discord.Color.from_rgb(255,255,255)
 token = os.getenv("TOKEN")
-config = default.config() #used to point login to the token var
+config = default.config() #used for the things in the config like loading prefixes
 print("Logging in...")
 
 menu = DefaultMenu('◀️', '▶️', '❌') #used for menu nav
@@ -44,7 +44,7 @@ def home():
 
 def run():
   app.run(
-        host='192.168.1.11',
+        host='192.168.1.11', #place your private IP here
         port=80
     )
 

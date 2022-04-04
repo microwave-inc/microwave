@@ -9,7 +9,7 @@ def home():
 
 def run():
   app.run(
-        host='192.168.1.11',
+        host='192.168.1.11', #place private IP here
         port=5000
     )
 

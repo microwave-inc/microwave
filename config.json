@@ -1,17 +1,19 @@
 {
-  "join_message": "Microwave bot has arrived! use ``m!help`` for help",
+  "join_message": "Microwave bot has arrived! use ``m!help`` for help \nand check out our website @ https://microwavebot.tech",
   "devperms": [
     398959101322854400,
     597478415481700377,
     384049625511755777,
     552104643446964225,
-    877750846400659527
+    877750846400659527,
+    895321199675080704
   ],
   "devs": [
     398959101322854400,
     384049625511755777,
     552104643446964225,
-    877750846400659527
+    877750846400659527,
+    895321199675080704
   ],
   "trueowners": [
     398959101322854400,
@@ -25,6 +27,6 @@
   "activity_type": "listening",
   "status_type": "online",
   "version": "1.1.3",
-  "lastupdate": "MAR 20 2022, 11:28 PM PST",
+  "lastupdate": "<t:1649053440:f>",
   "playing": "m!help | https://microwavebot.tech"
 }
