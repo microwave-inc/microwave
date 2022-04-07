@@ -8,3 +8,4 @@ __pycache__/keep_alive.cpython-39.pyc
 venv
 .env
 config.json
+*test*

@@ -87,8 +87,46 @@ class Information(commands.Cog):
 
 #source: https://github.com/Eddy-Arch/Hentai-discord-bot/blob/master/index.py heavily modded
     @commands.command(aliases=["covidstat", "covid", "covid-19"])
+    @commands.check(permissions.is_owner)
     async def coronavirus(self, ctx, otext=''):
         """Gives you covid-19 stats on a country (must be a valid name or abreviation"""
+
+        def getCountryList():
+            res = requests.get('https://corona-stats.online?format=json')
+            json = res.json()
+            data = json['data']
+            countryCodes = []
+            for i in range(len(data)):
+                cc = data[i]['countryCode']
+                name = data[i]['country']
+
+                if cc == '' or cc == None:
+                    full = name
+                else:
+                    full = f"{cc} {name} :flag_{cc.lower()}:"
+                
+                countryCodes.append(f"- {full}")
+
+            sortedCodes = sorted(countryCodes)
+
+            return sortedCodes # 225 countries
+
+        if otext == 'list':
+            countryList = getCountryList()
+            embedContent = ''
+
+            for i in range(25):
+                embedContent += countryList[i] + '\n'
+
+            embed = discord.Embed(title='Available Countries')
+            embed.add_field(value=embedContent, name="First 25", inline=False)
+
+            msg = await ctx.send(embed=embed)
+
+            await msg.add_reaction('◀️')
+            await msg.add_reaction('▶️')
+
+            return
 
         if otext == '': text = 'USA'
         else: text = otext
