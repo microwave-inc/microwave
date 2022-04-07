@@ -9,7 +9,7 @@ locale.setlocale(locale.LC_ALL, 'en_US.utf8')
 
 from datetime import datetime
 from discord.ext import commands
-from utils import default
+from utils import default, permissions
 
 apikey = os.getenv("APIKEY")
 
@@ -89,7 +89,7 @@ class Information(commands.Cog):
     @commands.command(aliases=["covidstat", "covid", "covid-19"])
     @commands.check(permissions.is_owner)
     async def coronavirus(self, ctx, otext=''):
-        """Gives you covid-19 stats on a country (must be a valid name or abreviation"""
+        """Gives you covid-19 stats on a country (must be a valid name or abreviation)"""
 
         def getCountryList():
             res = requests.get('https://corona-stats.online?format=json')

@@ -44,7 +44,7 @@ def home():
 
 def run():
   app.run(
-        host='192.168.1.11', #place your private IP here
+        host='0.0.0.0', #place your private IP here
         port=80
     )
 
