@@ -2,10 +2,8 @@
 config.json
 .vscode/settings.json
 unused/
-utils/__pycache__/
-cogs/__pycache__/
-__pycache__/
-__pycache__/keep_alive.cpython-39.pyc
+*/__pycache__/
+/__pycache__/
 venv
 .env
 config.json
