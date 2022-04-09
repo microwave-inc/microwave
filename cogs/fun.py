@@ -7,7 +7,7 @@ import aiohttp
 from io import BytesIO
 from discord.ext import commands
 from utils import lists, permissions, http, default
-gawaxine = '398959101322854400'
+#there was something useless on this line
 
 class Fun_Commands(commands.Cog):
     """Some fun things to mess with"""
