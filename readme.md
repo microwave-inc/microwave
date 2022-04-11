@@ -1,4 +1,3 @@
-> [!IMPORTANT]
 > We have just moved to pycord so follow the new instructions listed in [How To Install](#how-to-install)
 # Welcome to Microwave bot's official repo
 Here you will find many things you can use for your bot, have an issue? shoot us an [email](mailto:help@microwavebot.tech) or open an issue
