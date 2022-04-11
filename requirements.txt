@@ -1,4 +1,4 @@
-discord.py
+py-cord
 psutil
 timeago==1.0.13
 python-dotenv

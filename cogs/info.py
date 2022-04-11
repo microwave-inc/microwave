@@ -57,7 +57,7 @@ class Information(commands.Cog):
             value=", ".join([str(self.bot.get_user(x)) for x in self.config["trueowners"]]),
             inline=True
         )
-        embed.add_field(name="Library", value="discord.py", inline=True)
+        embed.add_field(name="Library", value="pycord", inline=True)
         embed.add_field(name="Servers", value=f"{len(ctx.bot.guilds)} (avg: {avgmembers:,.2f} users/server)", inline=True)
         embed.add_field(name="Commands loaded", value=len([x.name for x in self.bot.commands]), inline=True)
         embed.add_field(name="RAM", value=f"{ramUsage:.2f} MB", inline=True)
@@ -81,7 +81,7 @@ class Information(commands.Cog):
 
         embed = discord.Embed(colour=embedColour)
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
-        embed.add_field(name=f"Changelog for version {self.config['version']} (Date updated: {self.config['lastupdate']}", value= "Added Astrology Picture of The Day command (thank you NASA for the API)", inline=True)
+        embed.add_field(name=f"Changelog for version {self.config['version']} (Date updated: {self.config['lastupdate']}", value= "Moved from the old Discord.py lib to the new pycord lib \n expect new slash commands soon!", inline=True)
 
         await ctx.send(embed=embed)
 
