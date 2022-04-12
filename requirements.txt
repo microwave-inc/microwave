@@ -5,3 +5,4 @@ python-dotenv
 discord-pretty-help
 python-dotenv
 flask
+DiscordEconomy

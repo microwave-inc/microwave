@@ -81,7 +81,7 @@ class Information(commands.Cog):
 
         embed = discord.Embed(colour=embedColour)
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
-        embed.add_field(name=f"Changelog for version {self.config['version']} (Date updated: {self.config['lastupdate']}", value= "Moved from the old Discord.py lib to the new pycord lib \n expect new slash commands soon!", inline=True)
+        embed.add_field(name=f"Changelog for version {self.config['version']} (Date updated: {self.config['lastupdate']}", value= "Added a crude Economy system", inline=True)
 
         await ctx.send(embed=embed)
 
