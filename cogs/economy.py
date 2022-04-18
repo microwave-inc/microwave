@@ -54,17 +54,29 @@ class Economy(commands.Cog):
     @commands.guild_only()
     async def work(self, ctx):
         """A simple work command"""
-        money = random.randint(10,100)
+        money = random.randint(10,3600)
         user = ctx.author
         await eco.is_registered(user.id)
-        bank = await eco.get_user(user.id)
         job = random.choice(lists.work)
         await eco.add_money(user.id, "bank", money)
         embed=discord.Embed(title=f"Work", color=discord.Color.from_rgb(255, 255, 255))
         embed.add_field(name="You worked as a:", value=f"{job}")
-        embed.add_field(name=f"from working as a {job} you gained:", value=f"{money}!")
+        embed.add_field(name=f"from working as a {job} you gained:", value=f"{money} dollars!")
         await ctx.send(embed=embed)
 
+    @commands.command()
+    @is_registered
+    @commands.cooldown(1, 86400)
+    @commands.guild_only()
+    async def daily(self, ctx):
+        """A simple daily command"""
+        user = ctx.author
+        await eco.is_registered(user.id)
+        bank = await eco.get_user(user.id)
+        await eco.add_money(user.id, "bank", 1000)
+        embed=discord.Embed(title=f"Daily", color=discord.Color.from_rgb(255, 255, 255))
+        embed.add_field(name=f"from claiming your daily you gained:", value="1000 dollars")
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Economy(bot))
