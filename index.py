@@ -4,9 +4,9 @@ import time
 from dotenv import load_dotenv
 load_dotenv()
 from utils import default
-import keep_alive
-from flask import Flask
-from threading import Thread
+#import keep_alive
+#from flask import Flask
+#from threading import Thread
 from utils.data import Bot, HelpFormat
 from datetime import datetime
 from pretty_help import DefaultMenu, PrettyHelp
@@ -36,24 +36,24 @@ for file in os.listdir("cogs"):
         bot.load_extension(f"cogs.{name}")
 
 #runs webpage (for betteruptime)
-app = Flask(__name__)
+#app = Flask(__name__)
 
-@app.route('/')
-def home():
-    return "hello"
+#@app.route('/')
+#def home():
+#    return "hello"
 
-def run():
-  app.run(
-        host='0.0.0.0', #place your private IP here
-        port=80
-    )
+#def run():
+#  app.run(
+#        host='0.0.0.0', #place your private IP here
+#        port=80
+#    )
 
-def keep_alive():
-    t = Thread(target=run)
-    t.start()
+#def keep_alive():
+#    t = Thread(target=run)
+#    t.start()
 
 
-keep_alive()
+#keep_alive()
 #logs into bot using the tpken in the config folder
 try:
     bot.run(token)
