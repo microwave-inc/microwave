@@ -5,7 +5,7 @@ import random
 import discord
 from discord.ext import commands
 
-import DiscordEconomy
+from DiscordEconomy.Sqlite import Economy
 
 eco = DiscordEconomy.Economy(database_name='economy.db')
 
