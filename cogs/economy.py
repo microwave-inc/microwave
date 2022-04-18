@@ -7,7 +7,7 @@ from discord.ext import commands
 
 from DiscordEconomy.Sqlite import Economy
 
-eco = DiscordEconomy.Economy(database_name='economy.db')
+eco = Economy(database_name='economy.db')
 
 async def is_registered(ctx):
     r = await eco.is_registered(ctx.message.author.id)
