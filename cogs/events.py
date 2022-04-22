@@ -38,7 +38,7 @@ class Events(commands.Cog):
             await ctx.send("You've reached max capacity of command usage at once, please finish the previous one...")
 
         elif isinstance(err, errors.CommandOnCooldown):
-            await ctx.send(f"This command is on cooldown... try again in {err.retry_after:.2f} seconds.")
+            await ctx.send(f"This command is on cooldown... try again in {round(error.retry_after, 2)} seconds.")
 
         elif isinstance(err, errors.CommandNotFound):
             pass

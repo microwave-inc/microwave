@@ -4,20 +4,18 @@ import time
 from dotenv import load_dotenv
 load_dotenv()
 from utils import default
-#import keep_alive
-#from flask import Flask
-#from threading import Thread
 from utils.data import Bot, HelpFormat
 from datetime import datetime
 from pretty_help import DefaultMenu, PrettyHelp
+#define things here
 color = discord.Color.from_rgb(255,255,255)
 token = os.getenv("TOKEN")
 config = default.config() #used for the things in the config like loading prefixes
 print("Logging in...")
-
+#for pretty help
 menu = DefaultMenu('◀️', '▶️', '❌') #used for menu nav
 
-
+#defines bot for the "bot.run()" at the bottom, and for loading cogs
 bot = Bot(
     command_prefix=config["prefix"], prefix=config["prefix"],
     owner_ids=config["devperms"], command_attrs=dict(hidden=True), help_command=HelpFormat(),
@@ -35,26 +33,7 @@ for file in os.listdir("cogs"):
         name = file[:-3]
         bot.load_extension(f"cogs.{name}")
 
-#runs webpage (for betteruptime)
-#app = Flask(__name__)
-
-#@app.route('/')
-#def home():
-#    return "hello"
-
-#def run():
-#  app.run(
-#        host='0.0.0.0', #place your private IP here
-#        port=80
-#    )
-
-#def keep_alive():
-#    t = Thread(target=run)
-#    t.start()
-
-
-#keep_alive()
-#logs into bot using the tpken in the config folder
+#logs into bot using the token stored in the .env file
 try:
     bot.run(token)
 except Exception as e:
