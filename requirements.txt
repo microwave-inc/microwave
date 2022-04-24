@@ -4,5 +4,4 @@ timeago==1.0.13
 python-dotenv
 discord-pretty-help
 python-dotenv
-flask
 DiscordEconomy

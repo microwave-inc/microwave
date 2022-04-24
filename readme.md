@@ -40,10 +40,6 @@ cd ~/path/to/folder
 ```
 Once inside you must do the following:
 ```python
-#pip3 should work on all OS's
-pip3 install discord
-#this gets it ready for pycord
-pip3 uninstall discord.py
 pip3 install -r requirements.txt
 ```
 Once you have finished all of that you can move onto the next step the ENV!
