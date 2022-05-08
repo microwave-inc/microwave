@@ -199,6 +199,26 @@ class Fun_Commands(commands.Cog):
         else:
             await ctx.send(f"{slotmachine} No match, you lost 😢")
 
+    @commands.command(aliases=["color", "randomcolor"])
+    async def randcolor(self, ctx):
+        """grabs a random color in RGB form"""
+        #random color value
+        a = random.randint(0,255)
+        b = random.randint(0,255)
+        c = random.randint(0,255)
+        color = f"{a}, {b}, {c}"
+        #this sets the embed color
+        embedcolor = discord.Color.from_rgb(a,b,c)
+        embed=discord.Embed(title="Random Color", colour=embedcolor)
+        #embed.add_field(name="Your Color:", value=f"{color}", inline=False)
+        #this just shows the values in the embed
+        embed.add_field(name="R value", value=f"{a}")
+        embed.add_field(name="G value", value=f"{b}")
+        embed.add_field(name="B value", value=f"{c}")
+        await ctx.send(embed=embed)
+        
+
+
 
 def setup(bot):
     bot.add_cog(Fun_Commands(bot))

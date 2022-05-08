@@ -60,8 +60,8 @@ class Economy(commands.Cog):
         job = random.choice(lists.work)
         await eco.add_money(user.id, "bank", money)
         embed=discord.Embed(title=f"Work", color=discord.Color.from_rgb(255, 255, 255))
-        embed.add_field(name="You worked as a:", value=f"{job}")
-        embed.add_field(name=f"from working as a {job} you gained:", value=f"{money} dollars!")
+        embed.add_field(name="You worked as a:", value=f"{job}", inline=True)
+        embed.add_field(name=f"from working as a {job} you gained:", value=f"{money} dollars!", inline=True)
         await ctx.send(embed=embed)
 
     @commands.command()
@@ -76,7 +76,7 @@ class Economy(commands.Cog):
         await eco.add_money(user.id, "bank", 1000)
         embed=discord.Embed(title=f"Daily", color=discord.Color.from_rgb(255, 255, 255))
         embed.add_field(name=f"from claiming your daily you gained:", value="1000 dollars")
-        await ctx.send(embed=embed)
+        await ctx.send(embed=embed)     
 
 def setup(bot):
     bot.add_cog(Economy(bot))

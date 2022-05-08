@@ -60,11 +60,14 @@ class Owner(commands.Cog):
     @commands.check(permissions.is_owner)
     async def reload(self, ctx, name: str):
         """ Reloads an extension. """
-        try:
-            self.bot.reload_extension(f"cogs.{name}")
-        except Exception as e:
-            return await ctx.send(default.traceback_maker(e))
-        await ctx.send(f"Reloaded extension **{name}.py**")
+        if name == "economy":
+            await ctx.send("```You will have to reload the bot to do this...```")
+        else:
+            try:
+                self.bot.reload_extension(f"cogs.{name}")
+            except Exception as e:
+                return await ctx.send(default.traceback_maker(e))
+            await ctx.send(f"Reloaded extension **{name}.py**")
 
     @commands.command()
     @commands.check(permissions.is_owner)
@@ -104,16 +107,6 @@ class Owner(commands.Cog):
             error = default.traceback_maker(e)
             return await ctx.send(f"Module **{name_maker}** returned error and was not reloaded...\n{error}")
         await ctx.send(f"Reloaded module **{name_maker}**")
-
-    @commands.command()
-    @commands.check(permissions.is_owner)
-    async def restart(self, ctx):
-        """ Reboot the bot """
-        await ctx.send("Rebooting now...")
-        os.system("clear")
-        await Client.close()
-        await Client.login(token, bot=True)
-        await ctx.send("Restart succesful!")
 
     @commands.command()
     @commands.check(owner)

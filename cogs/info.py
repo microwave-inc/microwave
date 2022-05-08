@@ -12,7 +12,10 @@ from discord.ext import commands
 from utils import default, permissions
 
 apikey = os.getenv("APIKEY")
-
+if os.getenv("APIKEY") == None:
+    apikey = "DEMO_KEY"
+else:
+    apikey = os.getenv("APIKEY")
 
 class Information(commands.Cog):
     """Useful stuff"""
@@ -169,7 +172,7 @@ class Information(commands.Cog):
         embed.add_field(name="Date:", value=r.json()['date'])
         embed.set_image(url=r.json()['url'])
         #embed.add_field(name="Photo Description:", value=r.json()['explanation'], inline=True)
-        embed.set_footer(text=f"API supplied by nasa, requested by {ctx.author.name}")
+        embed.set_footer(text=f"API supplied by NASA, requested by {ctx.author.name}")
         await ctx.send(embed=embed)
 
 def setup(bot):
