@@ -3,6 +3,7 @@ import discord
 import secrets
 import asyncio
 import aiohttp
+import requests
 
 from io import BytesIO
 from discord.ext import commands
@@ -216,6 +217,24 @@ class Fun_Commands(commands.Cog):
         embed.add_field(name="G value", value=f"{b}")
         embed.add_field(name="B value", value=f"{c}")
         await ctx.send(embed=embed)
+
+
+    @commands.command()
+    async def tot(self, ctx):
+        #just defining some things
+        a = random.randint(0,255)
+        b = random.randint(0,255)
+        c = random.randint(0,255)
+        embedcolor = discord.Color.from_rgb(a,b,c)
+        embed = discord.Embed(title="This or That?", colour=embedcolor)
+        r = requests.get("http://itsthisforthat.com/api.php?json")
+
+        embed.add_field(name="This:", value=r.json()['this'], inline=False)
+        embed.add_field(name="Or", value="‎", inline=False) #the unicode char is just an empty char because discord gets fussy
+        embed.add_field(name="That:", value=r.json()['that'])
+        await ctx.send(embed=embed)
+
+
         
 
 
