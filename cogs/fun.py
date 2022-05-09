@@ -218,9 +218,10 @@ class Fun_Commands(commands.Cog):
         embed.add_field(name="B value", value=f"{c}")
         await ctx.send(embed=embed)
 
-
+#these two are just me messing with API's
     @commands.command()
     async def tot(self, ctx):
+        """This or that"""
         #just defining some things
         a = random.randint(0,255)
         b = random.randint(0,255)
@@ -233,6 +234,20 @@ class Fun_Commands(commands.Cog):
         embed.add_field(name="Or", value="‎", inline=False) #the unicode char is just an empty char because discord gets fussy
         embed.add_field(name="That:", value=r.json()['that'])
         await ctx.send(embed=embed)
+
+    @commands.command(aliases=["ye"])
+    async def kanye(self, ctx):
+        """a Kanye quote"""
+        r = requests.get("https://api.kanye.rest/")
+        a = random.randint(0,255)
+        b = random.randint(0,255)
+        c = random.randint(0,255)
+        embedcolor = discord.Color.from_rgb(a,b,c)
+        embed = discord.Embed(title="Kanye quote", colour=embedcolor)
+
+        embed.add_field(name="Kanye says:", value=r.json()["quote"])
+        await ctx.send(embed=embed)
+
 
 
         
