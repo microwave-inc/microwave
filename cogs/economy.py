@@ -46,7 +46,7 @@ class Economy(commands.Cog):
             await eco.add_money(user.id, f"{bank_wallet_thing}", amount)
             await ctx.send(f"added {amount} to {user.name}'s {bank_wallet_thing}")
         else:
-            await ctx.send("yeah I think you fucked the command")
+            await eco.add_money(ctx.author, f"{bank_wallet_thing}", amount)
 
     @commands.command()
     @is_registered
@@ -76,7 +76,19 @@ class Economy(commands.Cog):
         await eco.add_money(user.id, "bank", 1000)
         embed=discord.Embed(title=f"Daily", color=discord.Color.from_rgb(255, 255, 255))
         embed.add_field(name=f"from claiming your daily you gained:", value="1000 dollars")
-        await ctx.send(embed=embed)     
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    @commands.check(permissions.is_owner)
+    async def removeuser(self, ctx, user: discord.Member = None):
+        """Dev command for removing user info"""
+        if user:
+
+            await eco.delete_user_account(user.id)
+            await ctx.send(f"User <@{user.id}>'s account info has been deleted")
+        else:
+            await ctx.send("you **MUST** specify a user or ID")
+
 
 def setup(bot):
     bot.add_cog(Economy(bot))
