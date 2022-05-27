@@ -1,6 +1,7 @@
 from utils import permissions, default, lists
 import asyncio
 import random
+import os
 
 import discord
 from discord.ext import commands
@@ -15,6 +16,7 @@ async def is_registered(ctx):
 
 is_registered = commands.check(is_registered)
 
+config = default.config()
 
 class Economy(commands.Cog):
     """Economy stuff"""
@@ -88,6 +90,19 @@ class Economy(commands.Cog):
             await ctx.send(f"User <@{user.id}>'s account info has been deleted")
         else:
             await ctx.send("you **MUST** specify a user or ID")
+
+    @commands.command()
+    @commands.check(permissions.is_owner)
+    async def reset(self, ctx, author: discord.Member = None):
+        """Resets all stats"""
+        if author.id in config["dev"]:
+            if os.path.exists("economy.db"):
+                await os.remove("economy.db")
+                await ctx.send("`economy.db` has been deleted and all progress reset.")
+            else:
+                await ctx.send("All progress was reset or something went wrong.")
+        else:
+            await ctx.send("You are not a developer.00")
 
 
 def setup(bot):
