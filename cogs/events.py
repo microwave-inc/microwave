@@ -38,7 +38,21 @@ class Events(commands.Cog):
             await ctx.send("You've reached max capacity of command usage at once, please finish the previous one...")
 
         elif isinstance(err, errors.CommandOnCooldown):
-            await ctx.send(f"This command is on cooldown... try again in {round(error.retry_after, 2)} seconds.")
+            #await ctx.send(f"This command is on cooldown... try again in {round(error.retry_after, 2)} seconds.")
+            embed = discord.Embed(title="You're on a cooldown!", color=discord.Color.blue()) #https://stackoverflow.com/questions/64569898/how-do-i-make-cooldown-display-in-minsseconds-discord-py
+            
+            cd = round(error.retry_after)
+            minutes = str(cd // 60)
+            seconds = str(cd % 60)
+
+            embed.add_field(name="\u200b", value=f"Slow down will ya?\nWait for {self.leadingZero(minutes)}:{self.leadingZero(seconds)}.")
+            await ctx.send(embed=embed)
+
+            def leadingZero(self, time: str):
+                if len(time) > 1:
+                    return time
+
+                return "0" + time
 
         elif isinstance(err, errors.CommandNotFound):
             pass

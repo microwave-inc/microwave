@@ -79,8 +79,7 @@ class Economy(commands.Cog):
         embed=discord.Embed(title=f"Daily", color=discord.Color.from_rgb(255, 255, 255))
         embed.add_field(name=f"from claiming your daily you gained:", value="1000 dollars")
         await ctx.send(embed=embed)
-
-    @commands.command()
+#these two commands are untested, some bug fixes may need to be made
     @commands.check(permissions.is_owner)
     async def removeuser(self, ctx, user: discord.Member = None):
         """Dev command for removing user info"""
@@ -104,7 +103,11 @@ class Economy(commands.Cog):
         else:
             await ctx.send("You are not a developer.")
 
-
+#TODO
+# - Add a custom cooldown error
+# - Add a shop command
+# - Add items for said shop command
+# - Possibly add per server economy(?)
 
 def setup(bot):
     bot.add_cog(Economy(bot))
