@@ -102,7 +102,8 @@ class Economy(commands.Cog):
             else:
                 await ctx.send("All progress was reset or something went wrong.")
         else:
-            await ctx.send("You are not a developer.00")
+            await ctx.send("You are not a developer.")
+
 
 
 def setup(bot):
