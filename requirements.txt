@@ -5,3 +5,5 @@ python-dotenv
 discord-pretty-help
 python-dotenv
 DiscordEconomy
+requests
+random
