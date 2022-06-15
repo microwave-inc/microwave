@@ -46,13 +46,6 @@ class Fun_Commands(commands.Cog):
             bio.seek(0)
             await ctx.send(content=content, file=discord.File(bio, filename=filename))
 
-    @commands.command()
-    @commands.cooldown(rate=1, per=1.5, type=commands.BucketType.user)
-    async def duck(self, ctx):
-        """ Posts a random duck """
-        await self.randomimageapi(ctx, "https://random-d.uk/api/v1/random", "url")
-
-
     @commands.command(aliases=["flip", "coin"])
     async def coinflip(self, ctx):
         """ Coinflip! """
@@ -65,32 +58,6 @@ class Fun_Commands(commands.Cog):
         hearts = ["❤", "💛", "💚", "💙", "💜"]
         reason = f"for **{text}** " if text else ""
         await ctx.send(f"**{ctx.author.name}** has paid their respect {reason}{random.choice(hearts)}")
-
-    @commands.command()
-    @commands.cooldown(rate=1, per=2.0, type=commands.BucketType.user)
-    async def urban(self, ctx, *, search: commands.clean_content):
-        """ Find the 'best' definition to your words """
-        async with ctx.channel.typing():
-            try:
-                url = await http.get(f"https://api.urbandictionary.com/v0/define?term={search}", res_method="json")
-            except Exception:
-                return await ctx.send("Urban API returned invalid data... might be down atm.")
-
-            if not url:
-                return await ctx.send("I think the API broke...")
-
-            if not len(url["list"]):
-                return await ctx.send("Couldn't find your search in the dictionary...")
-
-            result = sorted(url["list"], reverse=True, key=lambda g: int(g["thumbs_up"]))[0]
-
-            definition = result["definition"]
-            if len(definition) >= 1000:
-                definition = definition[:1000]
-                definition = definition.rsplit(" ", 1)[0]
-                definition += "..."
-
-            await ctx.send(f"📚 Definitions for **{result['word']}**```fix\n{definition}```")
 
     @commands.command()
     async def reverse(self, ctx, *, text: str):
@@ -182,25 +149,7 @@ class Fun_Commands(commands.Cog):
         bio = BytesIO(await http.get("https://i.alexflipnote.dev/500ce4.gif", res_method="read"))
         await ctx.send(file=discord.File(bio, filename="noticeme.gif"))
 
-    @commands.command(aliases=["slots", "bet"])
-    @commands.cooldown(rate=1, per=3.0, type=commands.BucketType.user)
-    async def slot(self, ctx):
-        """ Roll the slot machine """
-        emojis = "🍎🍊🍐🍋🍉🍇🍓🍒"
-        a = random.choice(emojis)
-        b = random.choice(emojis)
-        c = random.choice(emojis)
-
-        slotmachine = f"**[ {a} {b} {c} ]\n{ctx.author.name}**,"
-
-        if (a == b == c):
-            await ctx.send(f"{slotmachine} All matching, you won! 🎉")
-        elif (a == b) or (a == c) or (b == c):
-            await ctx.send(f"{slotmachine} 2 in a row, you won! 🎉")
-        else:
-            await ctx.send(f"{slotmachine} No match, you lost 😢")
-
-    @commands.command(aliases=["color", "randomcolor"])
+    @commands.command(aliases=["color", "randomcolor"]) #untested, works inside a normal file https://github.com/galaxine-senpai/random-color-picker.py
     async def randcolor(self, ctx):
         """grabs a random color in RGB form"""
         #random color value
@@ -208,51 +157,19 @@ class Fun_Commands(commands.Cog):
         b = random.randint(0,255)
         c = random.randint(0,255)
         color = f"{a}, {b}, {c}"
+        #sends a request with the RGB value
+        r = requests.get(f"https://www.thecolorapi.com/id?rgb={color}")
+        colorname = r.json()["name"]['value']
         #this sets the embed color
         embedcolor = discord.Color.from_rgb(a,b,c)
         embed=discord.Embed(title="Random Color", colour=embedcolor)
-        #embed.add_field(name="Your Color:", value=f"{color}", inline=False)
+        #name of the color
+        embed.add_field(name="Your Color:", value=f"{colorname}", inline=False) 
         #this just shows the values in the embed
         embed.add_field(name="R value", value=f"{a}")
         embed.add_field(name="G value", value=f"{b}")
         embed.add_field(name="B value", value=f"{c}")
         await ctx.send(embed=embed)
-
-#these two are just me messing with API's
-    @commands.command()
-    async def tot(self, ctx):
-        """This or that"""
-        #just defining some things
-        a = random.randint(0,255)
-        b = random.randint(0,255)
-        c = random.randint(0,255)
-        embedcolor = discord.Color.from_rgb(a,b,c)
-        embed = discord.Embed(title="This or That?", colour=embedcolor)
-        r = requests.get("http://itsthisforthat.com/api.php?json")
-
-        embed.add_field(name="This:", value=r.json()['this'], inline=False)
-        embed.add_field(name="Or", value="‎", inline=False) #the unicode char is just an empty char because discord gets fussy
-        embed.add_field(name="That:", value=r.json()['that'])
-        await ctx.send(embed=embed)
-
-    @commands.command(aliases=["ye"])
-    async def kanye(self, ctx):
-        """a Kanye quote"""
-        r = requests.get("https://api.kanye.rest/")
-        a = random.randint(0,255)
-        b = random.randint(0,255)
-        c = random.randint(0,255)
-        embedcolor = discord.Color.from_rgb(a,b,c)
-        embed = discord.Embed(title="Kanye quote", colour=embedcolor)
-
-        embed.add_field(name="Kanye says:", value=r.json()["quote"])
-        await ctx.send(embed=embed)
-
-
-
-        
-
-
 
 def setup(bot):
     bot.add_cog(Fun_Commands(bot))
