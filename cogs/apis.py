@@ -71,7 +71,7 @@ class apis(commands.Cog):
 
         embed.add_field(name="Kanye says:", value=r.json()["quote"])
         await ctx.send(embed=embed)
-#commands belore are not tested and most likely doesn't work. Will fix when able
+#commands below are not tested and most likely doesn't work. Will fix when able
     @commands.command()
     async def ISS(self, ctx):
         r = requests.get("http://api.open-notify.org/iss-now.json")
@@ -96,6 +96,23 @@ class apis(commands.Cog):
         r = requests.get("https://coffee.alexflipnote.dev/random.json")
         embed=discord.Embed(title="Here is your image!", colour=embedcolor)
         embed.image(url=r.json()["file"])
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    async def weather(self, ctx, city: str):
+        r = requests.get(f"https://goweather.herokuapp.com/weather/{city}")
+        a = random.randint(0,255)
+        b = random.randint(0,255)
+        c = random.randint(0,255)
+        embedcolor = discord.Color.from_rgb(a,b,c)
+        if city == "":
+            city = "Seattle"
+        else:
+            embed = discord.Embed(title=f"Weather for {city}", colour=embedcolor)
+            embed.add_field(name="Current temp (C):", value=r.json()["temperature"])
+            embed.add_field(name="Wind speed (Km/h):", value=r.json()["wind"])
+            embed.add_field(name="Weather description:", value=r.json()["description"])
+            await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(apis(bot))
