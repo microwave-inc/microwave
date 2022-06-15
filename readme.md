@@ -11,7 +11,14 @@ Here you will find many things you can use for your bot, have an issue? shoot us
 
 # TODO 
 
-- N/A
+- Add more to apis.py
+
+## Economy TODO
+
+- Custom cooldown error
+- Add a shop
+- Items for said shop
+- Per server economy(?)
 
 # Dev's
 
