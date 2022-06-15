@@ -103,11 +103,37 @@ class Economy(commands.Cog):
         else:
             await ctx.send("You are not a developer.")
 
+#might work who knows
+    @commands.command(aliases=["slots", "bet"])
+    @is_registered
+    @commands.cooldown(rate=1, per=3.0, type=commands.BucketType.user)
+    async def slot(self, ctx):
+        """ Roll the slot machine """
+        emojis = "🍎🍊🍐🍋🍉🍇🍓🍒"
+        a = random.choice(emojis)
+        b = random.choice(emojis)
+        c = random.choice(emojis)
+        user = ctx.author
+
+        slotmachine = f"**[ {a} {b} {c} ]\n{ctx.author.name}**,"
+
+        if (a == b == c):
+            await ctx.send(f"{slotmachine} All matching, you won! 🎉")
+            await eco.add_money(user.id, "bank", "5000")
+        elif (a == b) or (a == c) or (b == c):
+            await ctx.send(f"{slotmachine} 2 in a row, you won! 🎉")
+            await eco.add_money(user.id, "bank", 1000)
+        else:
+            await ctx.send(f"{slotmachine} No match, you lost 😢")
+    
 #TODO
 # - Add a custom cooldown error
 # - Add a shop command
 # - Add items for said shop command
 # - Possibly add per server economy(?)
+
+#CHANGELOG
+# - Added a slots command (stolen from fun.py)
 
 def setup(bot):
     bot.add_cog(Economy(bot))
