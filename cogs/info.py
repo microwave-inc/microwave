@@ -84,7 +84,7 @@ class Information(commands.Cog):
 
         embed = discord.Embed(colour=embedColour)
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
-        embed.add_field(name=f"Changelog for version {self.config['version']} (Date updated: {self.config['lastupdate']}", value= "Added a crude Economy system", inline=True)
+        embed.add_field(name=f"Changelog for version {self.config['version']} (Date updated: {self.config['lastupdate']}", value= "- Added more stuff for economy\n- Added more stuff to the API section (seperate fun section for API's)\n- Updated color command", inline=True)
 
         await ctx.send(embed=embed)
 
