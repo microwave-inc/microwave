@@ -4,8 +4,7 @@ config.json
 unused/
 */__pycache__/
 /__pycache__/
-venv
-.env
+*env
 config.json
 *test*
 economy.db
