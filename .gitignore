@@ -9,3 +9,4 @@ venv
 config.json
 *test*
 economy.db
+winners.txt
