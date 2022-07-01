@@ -1,4 +1,4 @@
-from utils import permissions, default, lists
+from utils import permissions, default, lists, shop
 import asyncio
 import random
 import os
@@ -74,7 +74,7 @@ class Economy(commands.Cog):
             await eco.add_money(user.id, "bank", money)
             embed.add_field(name="You worked as a:", value=f"{job}", inline=True)
             embed.add_field(name=f"from working as a {job} you gained:", value=f"{money} dollars!", inline=True)
-            if(money = 69 or 420):
+            if money == "69" or "420":
                 embed.add_field(name="Hehe nice!", value="gotta love the funny numbers")
                 await ctx.send(embed=embed)
             else:
@@ -160,6 +160,79 @@ class Economy(commands.Cog):
                 f.write("\n")
         else:
             await ctx.send("You didn't win, very sad....")
+#I doubt anything below works period
+    @commands.group()
+    @is_registered
+    async def shop(self, ctx):
+        """A simple shop command"""
+        if ctx.invoked_subcommand is None:
+            await ctx.send("Valid subcommands are: `buy`, `sell` and `list`")
+
+    @shop.command()
+    @is_registered
+    async def list(self, ctx):
+        """Lists all items in the shop"""
+        embed=discord.Embed(title=f"Shop", color=discord.Color.from_rgb(255, 255, 255))
+        for item in shop["Items"].items():
+
+            if item[1]["available"]:
+                embed.add_field(name=item[0].capitalize(), value=f"""Price: **{item[1]['price']}** \nDescription: **{item[1]['description']}**""")
+            #taken from https://github.com/Nohet/DiscordEconomy/blob/83808e18ecdd8bea269200d5f37c3f0a666aa863/examples/dpy_base/messageCommands/bot.py#L258
+        await ctx.send(content="Here is a list of all items in the shop:", embed=embed)
+
+    @shop.command()
+    @is_registered
+    async def buy(self, ctx, item: str):
+        """Buys an item from the shop"""
+        item = item.lower()
+        user = ctx.author
+        bank = await eco.get_user(user.id)
+        if item in shop["Items"]:
+            if shop["Items"][item]["available"] == True:
+                if bank.bank >= shop["Items"][item]["price"]:
+                    await eco.remove_money(user.id, "bank", shop["Items"][item]["price"])
+                    await eco.add_item(user.id, item)
+                    await ctx.send(f"You have bought {item.capitalize()} for {shop['Items'][item]['price']} dollars")
+                else:
+                    await ctx.send("You don't have enough money")
+            else:
+                await ctx.send("This item is not available")
+        else:
+            await ctx.send("This item does not exist")
+
+    @shop.command()
+    @is_registered
+    async def sell(self, ctx, item: str):
+        """Sells an item to the shop"""
+        item = item.lower()
+        user = ctx.author
+        bank = await eco.get_user(user.id)
+        if item not in shop.items:
+            await ctx.send("This item does not exist")
+        else:
+            pass
+        if item in bank.items:
+            await eco.remove_item(user.id, item)
+            await eco.add_money(user.id, "bank", shop["Items"][item]["price"])
+            await ctx.send(f"You have sold {item.capitalize()} for {shop['Items'][item]['price']} dollars")
+        else:
+            await ctx.send("You don't have this item")
+
+
+    @commands.command(aliases=["inv"])
+    @is_registered
+    async def inventory(self, ctx):
+        """Shows your inventory"""
+        user = ctx.author
+        inv = await eco.get_user(user.id)
+        embed=discord.Embed(title=f"Inventory", color=discord.Color.from_rgb(255, 255, 255))
+        if inv.items == None:
+            embed.add_field(name="Hey!", value="You have no items")
+        for item in inv.items:
+            embed.add_field(name=item.capitalize(), value=f"""Price: **{shop['Items'][item]['price']}** \nDescription: **{shop['Items'][item]['description']}**""")
+        await ctx.send(content="Here is a list of all items in your inventory:", embed=embed)
+        
+
         
             
     
