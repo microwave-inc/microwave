@@ -1,6 +1,21 @@
-> We have just moved to pycord so follow the new instructions listed in [How To Install](#how-to-install)
+> We will be moving back to discord.py as it will be reciving it's v2 update, this will cause economy to not function, technically you could stay with pycord but it will be unsupported by us until further notice.
 # Welcome to Microwave bot's official repo
-Here you will find many things you can use for your bot, have an issue? shoot us an [email](mailto:help@microwavebot.tech) or open an issue
+Here you will find many things you can use for your bot, have an issue? shoot us an [email](mailto:microwave@microwavebot.tech) or open an issue
+
+# "Important badges"
+
+[![Contact us - microwave@microwavebot.tech](https://img.shields.io/badge/Contact_us-microwave%40microwavebot.tech-FFFFFF?logo=Mail.Ru&logoColor=000000)](mailto:microwave@microwavebot.tech "Contact us")
+[![Organization - Microwave Inc.](https://img.shields.io/badge/Organization-Microwave_Inc.-white?logo=Github&logoColor=%233776AB)](https://github.com/microwave-inc "Our GitHub page")
+#
+[![py - >=3.7.0](https://img.shields.io/badge/py->=3.7-Green?logo=Python&logoColor=%233776AB)](https://python.org "Go to the Python homepage")
+[![Version - 2.2.1](https://img.shields.io/badge/Version-2.2.1-2ea44f?logo=Discord&logoColor=%23181717)](https://github.com/microwave-inc/microwave "Bot version")
+![License  - GPL 3.0](https://img.shields.io/badge/License_-GPL_3.0-blue)
+#
+[![Dependency's  - requirements.txt](https://img.shields.io/badge/Dependency's_-requirements.txt-blue?logo=Python&logoColor=%233776AB)](https://github.com/microwave-inc/microwave/blob/master/requirements.txt "Reqirements file")
+#
+[![issues](https://img.shields.io/github/issues/microwave-inc/microwave)](https://github.com/microwave-inc/microwave/issues)
+![Maintained - yes](https://img.shields.io/badge/Maintained-yes-green)
+![License - GPL 3.0](https://img.shields.io/badge/License-GPL_3.0-blue)
 
 # Table Of Contents
 
@@ -9,31 +24,10 @@ Here you will find many things you can use for your bot, have an issue? shoot us
 - [How to install](#how-to-install)
 - [Badge Stuff](#badge-stuff)
 
-# TODO 
-
-- Add more to apis.py
-
-## Economy TODO
-
-- Custom cooldown error
-- Add a shop
-- Items for said shop
-- Per server economy(?)
-
-# Dev's
-
-Founder/Head of Bot Development [Galaxine](https://github.com/galaxine-senpai)
-
-Assistant Head of Bot Development [Fonta22](https://github.com/Fonta22)
-
-Bot Developer [yapudjus](https://github.com/yapudjus)
-
-Bot Developer [Sopy](https://github.com/sopyb)
-
 # How to install
 To install microwave bot just follow these simple steps!
 ```sh
-git clone https://github.com/galaxine-senpai/microwave.git
+git clone https://github.com/microwave/microwave.git
 ```
 Now that we have cloned the repo we need to go into it
 
@@ -72,14 +66,12 @@ now we set up the config, to do this all we need to do is put the stuff you want
     "your_id_here"
   ],
   "prefix": [
-    "m!"
+    "m!",
+    "customprefix!"
   ],
-  "activity": "m!help | https://microwavebot.tech/team",
-  "activity_type": "listening",
-  "status_type": "online",
-  "version": "2.0.0",
-  "lastupdate": "<t:1649652060:f> (<t:1649652060:R>)",
-  "playing": "m!help | https://microwavebot.tech"
+  "version": "vX.X.X",
+  "lastupdate": "6/28/2022 10:42 PST",
+  "changelog": "Updated readme.md"
 }
 ```
 Let me explain what the first 3 do (the rest are not hard to figure out on your own)
@@ -90,12 +82,13 @@ Let me explain what the first 3 do (the rest are not hard to figure out on your 
 
 Now for the real fun... Starting the bot for the first time!
 
-simply do python3 index.py (if you get a weird error you can ignore it, thats just flask being rude because something is using its port, why flask is used is for the main bot so it's uptime can be monitored)
+simply do python (python3 for Linux) index.py (if you get a weird error you can ignore it, thats just flask being rude because something is using its port, why flask is used is for the main bot so it's uptime can be monitored)
 
 Once it's running enjoy!
 
 # Badge Stuff
 
-![Discord Bots](https://top.gg/api/widget/867964961417203743.svg) 
+[![stars - microwave](https://img.shields.io/github/stars/microwave-inc/microwave?style=social)](https://github.com/microwave-inc/microwave "Stars")
+[![forks - microwave](https://img.shields.io/github/forks/microwave-inc/microwave?style=social)](https://github.com/microwave-inc/microwave "Forks")
+#
 
-[click here for top.gg page](https://top.gg/bot/867964961417203743)

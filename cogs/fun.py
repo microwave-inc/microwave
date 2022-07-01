@@ -149,14 +149,14 @@ class Fun_Commands(commands.Cog):
         bio = BytesIO(await http.get("https://i.alexflipnote.dev/500ce4.gif", res_method="read"))
         await ctx.send(file=discord.File(bio, filename="noticeme.gif"))
 
-    @commands.command(aliases=["color", "randomcolor"]) #untested, works inside a normal file https://github.com/galaxine-senpai/random-color-picker.py
+    @commands.command(aliases=["color", "randomcolor"]) #untested, works without discord stuff https://github.com/galaxine-senpai/random-color-picker.py
     async def randcolor(self, ctx):
-        """grabs a random color in RGB form"""
+        """grabs a random color in RGB form and gets it's name"""
         #random color value
         a = random.randint(0,255)
         b = random.randint(0,255)
         c = random.randint(0,255)
-        color = f"{a}, {b}, {c}"
+        color = f"{a},{b},{c}"
         #sends a request with the RGB value
         r = requests.get(f"https://www.thecolorapi.com/id?rgb={color}")
         colorname = r.json()["name"]['value']
@@ -164,12 +164,14 @@ class Fun_Commands(commands.Cog):
         embedcolor = discord.Color.from_rgb(a,b,c)
         embed=discord.Embed(title="Random Color", colour=embedcolor)
         #name of the color
-        embed.add_field(name="Your Color:", value=f"{colorname}", inline=False) 
+        embed.add_field(name="Your color name:", value=f"{colorname}", inline=False) 
         #this just shows the values in the embed
-        embed.add_field(name="R value", value=f"{a}")
-        embed.add_field(name="G value", value=f"{b}")
-        embed.add_field(name="B value", value=f"{c}")
+        embed.add_field(name="RGB value:", value="rgb(" + color + ")")
+        embed.add_field(name="Hex value:", value=r.json()["hex"]["value"])
+        embed.add_field(name="HSV value:", value=r.json()["hsv"]["value"])
+        embed.set_image(url=r.json()["image"]["named"])
         await ctx.send(embed=embed)
+        #the fucking amount of requests I used has to be a crime somewhere
 
 def setup(bot):
     bot.add_cog(Fun_Commands(bot))

@@ -11,9 +11,12 @@ import textwrap
 import traceback
 from contextlib import redirect_stdout
 import asyncio
+import datetime
 
 from discord.ext import commands
 from utils import permissions, default, http
+from datetime import datetime
+from pytz import reference
 
 token = os.getenv("TOKEN")
 owner = permissions.is_owner
@@ -127,26 +130,27 @@ class Owner(commands.Cog):
     async def change(self, ctx):
         if ctx.invoked_subcommand is None:
             await ctx.send_help(str(ctx.command))
-
-    @change.command(name="playing")
+    #untested, works in theory
+    @change.command(name="changelog")
     @commands.check(permissions.is_owner)
-    async def change_playing(self, ctx, *, playing: str):
+    async def changelog(self, ctx, *, changelog_msg: str, version: str):
         """ Change playing status. """
-        status = self.config["status_type"].lower()
-        status_type = {"idle": discord.Status.idle, "dnd": discord.Status.dnd}
-
-        activity = self.config["activity_type"].lower()
-        activity_type = {"listening": 2, "watching": 3, "competing": 5}
-
-        try:
-            await self.bot.change_presence(
-                activity=discord.Game(
-                    type=activity_type.get(activity, 2), name=playing
-                ),
-                status=status_type.get(status, discord.Status.online)
-            )
-            self.change_config_value("playing", playing)
-            await ctx.send(f"Successfully changed playing status to **{playing}**")
+        now = datetime.now()
+        localtime = reference.LocalTimezone()
+        timezone = localtime.tzname(now)
+        time = now.strftime("%a, %d %b %Y %I:%M %p " + timezone)
+        if version = "":
+            pass 
+        else:
+            self.change_config_value("version", "V" + version)
+            version_text = "V" + version 
+            await ctx.send(f"Version updated to `{version_text}`")
+        if changelog_msg = "":
+            await ctx.send("Changelog message cannot be empty ._.")
+        else:
+            self.change_config_value("changelog", changelog_msg)
+            self.change_config_value("lastupdate", time)
+            await ctx.send(f"Successfully changed changelog message status to **{changelog_msg}**")
         except discord.InvalidArgument as err:
             await ctx.send(err)
         except Exception as e:

@@ -2,6 +2,8 @@ from utils import permissions, default, lists
 import asyncio
 import random
 import os
+import datetime 
+from datetime import datetime
 
 import discord
 from discord.ext import commands
@@ -23,6 +25,7 @@ class Economy(commands.Cog):
     def __init__(self, bot:commands.Bot):
         self.bot = bot
 
+    
     @commands.command(aliases=["bal", "bank"])
     @commands.guild_only()
     async def balance(self, ctx: commands.Context):
@@ -48,7 +51,10 @@ class Economy(commands.Cog):
             await eco.add_money(user.id, f"{bank_wallet_thing}", amount)
             await ctx.send(f"added {amount} to {user.name}'s {bank_wallet_thing}")
         else:
+            user = ctx.author
             await eco.add_money(ctx.author, f"{bank_wallet_thing}", amount)
+            await ctx.send(f"added {amount} to {user.name}'s {bank_wallet_thing}")
+
 
     @commands.command()
     @is_registered
@@ -56,15 +62,23 @@ class Economy(commands.Cog):
     @commands.guild_only()
     async def work(self, ctx):
         """A simple work command"""
-        money = random.randint(10,3600)
+        money = random.randint(10,1000)
         user = ctx.author
         await eco.is_registered(user.id)
         job = random.choice(lists.work)
-        await eco.add_money(user.id, "bank", money)
         embed=discord.Embed(title=f"Work", color=discord.Color.from_rgb(255, 255, 255))
-        embed.add_field(name="You worked as a:", value=f"{job}", inline=True)
-        embed.add_field(name=f"from working as a {job} you gained:", value=f"{money} dollars!", inline=True)
-        await ctx.send(embed=embed)
+        if job == "A Microwave Bot developer": #Just ask the team, they all agreed to volunteer as a dev... I'm not kidding......
+            embed.add_field(name="You worked as a:", value=f"{job}", inline=True)
+            embed.add_field(name=f"from working as a {job} you gained:", value=f"No money, you volunteered for this smh, no payment", inline=True)
+        else:
+            await eco.add_money(user.id, "bank", money)
+            embed.add_field(name="You worked as a:", value=f"{job}", inline=True)
+            embed.add_field(name=f"from working as a {job} you gained:", value=f"{money} dollars!", inline=True)
+            if(money = 69 or 420):
+                embed.add_field(name="Hehe nice!", value="gotta love the funny numbers")
+                await ctx.send(embed=embed)
+            else:
+                await ctx.send(embed=embed)
 
     @commands.command()
     @is_registered
@@ -80,6 +94,7 @@ class Economy(commands.Cog):
         embed.add_field(name=f"from claiming your daily you gained:", value="1000 dollars")
         await ctx.send(embed=embed)
 #these two commands are untested, some bug fixes may need to be made
+    @commands.command()
     @commands.check(permissions.is_owner)
     async def removeuser(self, ctx, user: discord.Member = None):
         """Dev command for removing user info"""
@@ -92,7 +107,7 @@ class Economy(commands.Cog):
 
     @commands.command()
     @commands.check(permissions.is_owner)
-    async def reset(self, ctx, author: discord.Member = None):
+    async def resetall(self, ctx, author: discord.Member = None):
         """Resets all stats"""
         if author.id in config["dev"]:
             if os.path.exists("economy.db"):
@@ -118,22 +133,46 @@ class Economy(commands.Cog):
         slotmachine = f"**[ {a} {b} {c} ]\n{ctx.author.name}**,"
 
         if (a == b == c):
-            await ctx.send(f"{slotmachine} All matching, you won! 🎉")
-            await eco.add_money(user.id, "bank", "5000")
+            await ctx.send(f"{slotmachine} All matching, you won! 🎉 1000 Dollars has been added to your account")
+            await eco.add_money(user.id, "bank", "1000")
         elif (a == b) or (a == c) or (b == c):
-            await ctx.send(f"{slotmachine} 2 in a row, you won! 🎉")
-            await eco.add_money(user.id, "bank", 1000)
+            await ctx.send(f"{slotmachine} 2 in a row, you won! 🎉 500 Dollars has been added to your account")
+            await eco.add_money(user.id, "bank", "500")
         else:
             await ctx.send(f"{slotmachine} No match, you lost 😢")
+
+    @commands.command(aliases=["lottery", "goodluckonthisonebud"])#I doubt this works
+    @is_registered
+    @commands.cooldown(1, 3600) #a hours's cooldown
+    async def lotto(self, ctx):
+        """This command has a very very low chance of actually paying out but if it does you will be rewarded very well, you will also be logged and might get something in the future."""
+        random = random.int(1,100000)
+        user = ctx.author
+        now = datetime.now()
+        time = now.strftime("%m/%d/%Y, %H:%M:%S")
+
+        if (random == "69"):
+            await eco.add_money(user.id, "bank" "9999999999")
+            await ctx.send("Wow you won a lot of money!")
+            print(f"{user.name} won money") #since the chance is so low I want to log if someone wins
+            with open('winners.txt', 'w') as f:
+                f.write(f"{user.name} won at {time}")
+                f.write("\n")
+        else:
+            await ctx.send("You didn't win, very sad....")
+        
+            
     
 #TODO
 # - Add a custom cooldown error
 # - Add a shop command
-# - Add items for said shop command
+# | Add items for said shop command
 # - Possibly add per server economy(?)
+# - Add a leaderboard
 
 #CHANGELOG
 # - Added a slots command (stolen from fun.py)
+# - I got bored and added a command that has like a 0.1% chance of paying out money
 
 def setup(bot):
     bot.add_cog(Economy(bot))

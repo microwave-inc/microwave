@@ -1,11 +1,12 @@
 import discord
 import psutil
 import os
+import random
 
 from datetime import datetime
-from discord.ext import commands
+from discord.ext import commands, tasks
 from discord.ext.commands import errors
-from utils import default
+from utils import default, lists
 
 
 class Events(commands.Cog):
@@ -82,23 +83,27 @@ class Events(commands.Cog):
         if not hasattr(self.bot, "uptime"):
             self.bot.uptime = datetime.utcnow()
 
-        # Check if user desires to have something other than online
-        status = self.config["status_type"].lower()
-        status_type = {"idle": discord.Status.idle, "dnd": discord.Status.dnd}
+        #God I hope this works if not I have t redo it all
+        @tasks.loop(seconds=20.0)
+        async def statuschanger(self):
+        randomstatusnumber = random.int(1,4)
 
-        # Check if user desires to have a different type of activity
-        activity = self.config["activity_type"].lower()
-        activity_type = {"listening": 2, "watching": 3, "competing": 5}
+            if randomstatusnumber == 1:
+                status = random.choice(lists.listeningstatus)
+                await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=status))
+            elif randomstatusnumber == 2:
+                status = random.choice(lists.watchingstatus)
+                await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
+            elif randomstatusnumber == 3:
+                status = random.choice(lists.playingstatus)
+                await bot.change_presence(activity=discord.Game(name=status))
+            elif randomstatusnumber == 4:
+                status = random.choice(lists.streamingstatus)
+                await bot.change_presence(activity=discord.Streaming(name="Join us on twitch!", url=status))
 
-        await self.bot.change_presence(
-            activity=discord.Game(
-                type=activity_type.get(activity, 2), name=self.config["activity"]
-            ),
-            status=status_type.get(status, discord.Status.online)
-        )
         
         # Indicate that the bot has successfully booted up
-        print(f"Ready: {self.bot.user} | Servers: {len(self.bot.guilds)} | Users: {len(self.bot.users)} | {self.config['version']}")
+        print(f"Ready: {self.bot.user} | Servers: {len(self.bot.guilds)} | Users: {len(self.bot.users)} | Version: {self.config['version']} | Last Update: {self.config['lastupdate']}")
 
 
 def setup(bot):

@@ -1,9 +1,18 @@
 import discord
 import requests
 import random
+import locale
+locale.setlocale(locale.LC_ALL, 'en_US.utf8')
 
+from datetime import datetime
 from discord.ext import commands
 from utils import lists, permissions, http, default
+
+apikey = os.getenv("APIKEY")
+if os.getenv("APIKEY") == None:
+    apikey = "DEMO_KEY"
+else:
+    apikey = os.getenv("APIKEY")
 
 class apis(commands.Cog):
     """The new location for the API stuff"""
@@ -71,6 +80,94 @@ class apis(commands.Cog):
 
         embed.add_field(name="Kanye says:", value=r.json()["quote"])
         await ctx.send(embed=embed)
+
+#source: https://github.com/Eddy-Arch/Hentai-discord-bot/blob/master/index.py heavily modded
+    @commands.command(aliases=["covidstat", "covid", "covid-19"])
+    @commands.check(permissions.is_owner)
+    async def coronavirus(self, ctx, otext=''):
+        """Gives you covid-19 stats on a country (must be a valid name or abreviation)"""
+
+        def getCountryList():
+            res = requests.get('https://corona-stats.online?format=json')
+            json = res.json()
+            data = json['data']
+            countryCodes = []
+            for i in range(len(data)):
+                cc = data[i]['countryCode']
+                name = data[i]['country']
+
+                if cc == '' or cc == None:
+                    full = name
+                else:
+                    full = f"{cc} {name} :flag_{cc.lower()}:"
+                
+                countryCodes.append(f"- {full}")
+
+            sortedCodes = sorted(countryCodes)
+
+            return sortedCodes # 225 countries
+
+        if otext == 'list':
+            countryList = getCountryList()
+            embedContent = ''
+
+            for i in range(25):
+                embedContent += countryList[i] + '\n'
+
+            embed = discord.Embed(title='Available Countries')
+            embed.add_field(value=embedContent, name="First 25", inline=False)
+
+            msg = await ctx.send(embed=embed)
+
+            await msg.add_reaction('◀️')
+            await msg.add_reaction('▶️')
+
+            return
+
+        if otext == '': text = 'USA'
+        else: text = otext
+
+        embedColour = discord.Embed.Empty
+        embed = discord.Embed(colour=embedColour)
+        if hasattr(ctx, "guild") and ctx.guild is not None:
+            embedColour = ctx.me.top_role.colour
+    
+        r = requests.get(f'https://corona-stats.online/{text}?format=json')
+        # stats = r.json()['data'][0]['country'], r.json()['data'][0]['cases']
+        # world = "worldwide cases:", r.json()['worldStats']['cases'], " cases today: ", r.json()['worldStats']['todayCases'] , " deaths: ", r.json()['worldStats']['deaths'], " died today", r.json()['worldStats']['todayDeaths'], " recovered: ", r.json()['worldStats']['recovered'], " critical: ", r.json()['worldStats']['critical'], " cases per one million: ", r.json()['worldStats']['casesPerOneMillion']
+        embed.set_author(name=r.json()['data'][0]['country'], icon_url=r.json()['data'][0]['countryInfo']['flag'])
+        embed.add_field(value='cases:', name="===========================", inline=False)
+        embed.add_field(value='cases today:', name=locale.format("%d", r.json()['data'][0]['cases'], grouping=True), inline=False)
+        embed.add_field(value="recovered:", name=locale.format("%d", r.json()['data'][0]['todayCases'], grouping=True), inline=False)
+        embed.add_field(value="deaths:", name=locale.format("%d", r.json()['data'][0]['recovered'], grouping=True), inline=False)
+        embed.add_field(value="died today:", name=locale.format("%d", r.json()['data'][0]['deaths'], grouping=True), inline=False)
+        embed.add_field(value="active:", name=locale.format("%d", r.json()['data'][0]['todayDeaths'], grouping=True), inline=False)
+        embed.add_field(value="critical condition:", name=locale.format("%d", r.json()['data'][0]['active'], grouping=True), inline=False)
+        embed.add_field(value='world cases:', name=locale.format("%d", r.json()['data'][0]['critical'], grouping=True), inline=False)
+        embed.set_footer(text=locale.format("%d", r.json()['worldStats']['cases'], grouping=True))
+        await ctx.send(embed=embed)
+
+    @commands.command(aliases=["nasa", "spacepics"])
+    async def apod(self, ctx):
+        embedColour = discord.Embed.Empty
+        embed = discord.Embed(colour=embedColour)
+        #random color if in guild
+        r = random.randint(0, 255);b = random.randint(0, 255);g = random.randint(0, 255)
+        if hasattr(ctx, "guild") and ctx.guild is not None:
+            embedColour = discord.Color.from_rgb(r,g,b)
+        else:
+            #color white if in DM
+            embedColour = discord.Color.from_rgb(255,255,255)
+
+        r = requests.get(f'https://api.nasa.gov/planetary/apod?api_key={apikey}')
+        embed.set_author(name=r.json()['title'])
+        #embed.add_field(name="Copyright:", value=r.json()['copyright'])
+        embed.add_field(name="Date:", value=r.json()['date'])
+        embed.set_image(url=r.json()['url'])
+        #embed.add_field(name="Photo Description:", value=r.json()['explanation'], inline=True)
+        embed.set_footer(text=f"API supplied by NASA, requested by {ctx.author.name}")
+        await ctx.send(embed=embed)
+
 #commands below are not tested and most likely doesn't work. Will fix when able
     @commands.command()
     async def ISS(self, ctx):
@@ -113,6 +210,47 @@ class apis(commands.Cog):
             embed.add_field(name="Wind speed (Km/h):", value=r.json()["wind"])
             embed.add_field(name="Weather description:", value=r.json()["description"])
             await ctx.send(embed=embed)
+
+    @commands.command(aliases=["breakingbadquote"])
+    async def bbquote(self, ctx):
+        r = requests.get("https://api.breakingbadquotes.xyz/v1/quotes/1")
+        a = random.randint(0,255)
+        b = random.randint(0,255)
+        c = random.randint(0,255)
+        embedcolor = discord.Color.from_rgb(a,b,c)
+        embed=discord.Embed(title="Breaking bad quote", colour=embedcolor)
+        embed.add_field(name=f"{r.json()["author"]} said:", value=r.json()["quote"])
+        await ctx.send(embed=embed)
+
+    @commands.command() # I am terrible at coding if this doesn't work
+    async def idsearch(self, ctx, userid: int)
+    r = requests.get(f"https://discord-api.microwavebot.tech/discord/user/{userid}")
+    a = random.randint(0,255)
+    b = random.randint(0,255)
+    c = random.randint(0,255)
+    embedcolor = discord.Color.from_rgb(a,b,c)
+    if userid == "":
+        await ctx.send("Please add an ID")
+    else:
+        embed=discord.Embed(title=f"ID search for {r.json()["username"]}", colour=embedcolor, thumbnail=r.json()["url"])
+        embed.add_field(name="Username:", value=r.json()["username"])
+        embed.add_field(name="Discrim:", value=r.json()["discriminator"])
+        embed.add_field(name="Are they a bot:", value=r.json()["Bot"])
+        embed.set_footer(text="Tada!")
+        await ctx.send(embed=embed)
+
+    @commands.command() #this command has a like 90% chance of working
+    async def advice(self, ctx):
+        """Ya need some advice? Here you go."""
+        r = requests.get("https://api.adviceslip.com/advice")
+        a = random.randint(0,255)
+        b = random.randint(0,255)
+        c = random.randint(0,255)
+        color = discord.Color.from_rgb(a,b,c)
+        embed = discord.Embed(title="You need some **random** advice", colour=color)
+        embed.add_field(name="Advice:", value=r.json()["slip"]["advice"])
+        await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(apis(bot))
