@@ -160,7 +160,7 @@ class Economy(commands.Cog):
                 f.write("\n")
         else:
             await ctx.send("You didn't win, very sad....")
-#I doubt anything below works period
+#I doubt anything below works period half of it is just me letting github copilot do it's thing
     @commands.group()
     @is_registered
     async def shop(self, ctx):
