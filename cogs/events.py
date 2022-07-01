@@ -86,20 +86,20 @@ class Events(commands.Cog):
         #God I hope this works if not I have t redo it all
         @tasks.loop(seconds=20.0)
         async def statuschanger(self):
-        randomstatusnumber = random.int(1,4)
+            randomstatusnumber = random.int(1,4)
 
             if randomstatusnumber == 1:
                 status = random.choice(lists.listeningstatus)
-                await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=status))
+                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=status))
             elif randomstatusnumber == 2:
                 status = random.choice(lists.watchingstatus)
-                await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
+                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
             elif randomstatusnumber == 3:
                 status = random.choice(lists.playingstatus)
-                await bot.change_presence(activity=discord.Game(name=status))
+                await self.bot.change_presence(activity=discord.Game(name=status))
             elif randomstatusnumber == 4:
                 status = random.choice(lists.streamingstatus)
-                await bot.change_presence(activity=discord.Streaming(name="Join us on twitch!", url=status))
+                await self.bot.change_presence(activity=discord.Streaming(name="Join us on twitch!", url=status))
 
         
         # Indicate that the bot has successfully booted up
