@@ -8,7 +8,7 @@ Here you will find many things you can use for your bot, have an issue? shoot us
 [![Organization - Microwave Inc.](https://img.shields.io/badge/Organization-Microwave_Inc.-white?logo=Github&logoColor=%233776AB)](https://github.com/microwave-inc "Our GitHub page")
 #
 [![py - >=3.7.0](https://img.shields.io/badge/py->=3.7-Green?logo=Python&logoColor=%233776AB)](https://python.org "Go to the Python homepage")
-[![Version - 2.2.1](https://img.shields.io/badge/Version-2.2.1-2ea44f?logo=Discord&logoColor=%23181717)](https://github.com/microwave-inc/microwave "Bot version")
+[![Version - 2.9.1](https://img.shields.io/badge/Version-2.9.1-2ea44f?logo=Discord&logoColor=%23181717)](https://github.com/microwave-inc/microwave "Bot version")
 ![License  - GPL 3.0](https://img.shields.io/badge/License_-GPL_3.0-blue)
 #
 [![Dependency's  - requirements.txt](https://img.shields.io/badge/Dependency's_-requirements.txt-blue?logo=Python&logoColor=%233776AB)](https://github.com/microwave-inc/microwave/blob/master/requirements.txt "Reqirements file")
