@@ -1,9 +1,7 @@
 .gitignore
-config.json
-.vscode/settings.json
+.vscode/
 unused/
 */__pycache__/
-/__pycache__/
 *env
 config.json
 *test*
