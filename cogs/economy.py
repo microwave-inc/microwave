@@ -71,6 +71,8 @@ class Economy(commands.Cog):
             embed.add_field(name="You worked as a:", value=f"{job}", inline=True)
             embed.add_field(name=f"from working as a {job} you gained:", value=f"No money, you volunteered for this smh, no payment", inline=True)
         else:
+            if job == "Technoblade":
+                embed.add_field(name="Hey... you...", value="Technoblade never dies!"
             await eco.add_money(user.id, "bank", money)
             embed.add_field(name="You worked as a:", value=f"{job}", inline=True)
             embed.add_field(name=f"from working as a {job} you gained:", value=f"{money} dollars!", inline=True)
