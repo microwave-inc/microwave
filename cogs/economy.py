@@ -173,10 +173,10 @@ class Economy(commands.Cog):
     async def list(self, ctx):
         """Lists all items in the shop"""
         embed=discord.Embed(title=f"Shop", color=discord.Color.from_rgb(255, 255, 255))
-        for item in shop["Items"].items():
+        for item in shop["Items"]:
 
-            if item[1]["available"]:
-                embed.add_field(name=item[0].capitalize(), value=f"""Price: **{item[1]['price']}** \nDescription: **{item[1]['description']}**""")
+            if shop['items'][0]["available"]:
+                embed.add_field(name=item[0].capitalize(), value=f"Price: **{shop['items'][0]['price']}** \nDescription: **{shop['items'][0]['description']}**")
             #taken from https://github.com/Nohet/DiscordEconomy/blob/83808e18ecdd8bea269200d5f37c3f0a666aa863/examples/dpy_base/messageCommands/bot.py#L258
         await ctx.send(content="Here is a list of all items in the shop:", embed=embed)
 
@@ -207,7 +207,7 @@ class Economy(commands.Cog):
         item = item.lower()
         user = ctx.author
         bank = await eco.get_user(user.id)
-        if item not in shop.items:
+        if item not in shop['items'][item]:
             await ctx.send("This item does not exist")
         else:
             pass
@@ -229,7 +229,7 @@ class Economy(commands.Cog):
         if inv.items == None:
             embed.add_field(name="Hey!", value="You have no items")
         for item in inv.items:
-            embed.add_field(name=item.capitalize(), value=f"""Price: **{shop['Items'][item]['price']}** \nDescription: **{shop['Items'][item]['description']}**""")
+            embed.add_field(name=item.capitalize(), value=f"""Price: **{shop['items'][item]['price']}** \nDescription: **{shop['items'][item]['description']}**""")
         await ctx.send(content="Here is a list of all items in your inventory:", embed=embed)
         
 
