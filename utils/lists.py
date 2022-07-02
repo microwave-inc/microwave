@@ -7,7 +7,7 @@ ballresponse = [
 ],
 
 work = [ 
-"Janitor", "Discord Mod", "Redditor", "Profesional Idiot", "Bot Developer", "Microwave", "Miner", "Twitch Streamer", "⬜🟦 (ifykyk)", "Content Creator", "A Microwave Bot developer", "🟧⬛⭐ (yes I know, wow funny)", "pepe the frog", "hobo", 
+"Janitor", "Discord Mod", "Redditor", "Profesional Idiot", "Bot Developer", "Microwave", "Miner", "Twitch Streamer", "⬜🟦 (ifykyk)", "Content Creator", "A Microwave Bot developer", "🟧⬛⭐ (yes I know, wow funny)", "pepe the frog", "hobo", "Technoblade"
 ],
 
 listeningstatus = [
@@ -19,7 +19,7 @@ watchingstatus = [
 ],
 
 playingstaus = [
-  "Roblox", "Minecraft", "Sword with sauce", "Ravenfield", "With my cats", "With my devs", "With my devs sanity", "GODISGONEGODISDEADNOTHINGISREAL", "Hypixel"
+  "Roblox", "Minecraft", "Sword with sauce", "Ravenfield", "With my cats", "With my devs", "With my devs sanity", "GODISGONEGODISDEADNOTHINGISREAL", "Hypixel", "TECHNOBLADE NEVER DIES"
 ],
 
 streamingstatus = [
