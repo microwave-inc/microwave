@@ -4,6 +4,7 @@ import random
 import os
 import datetime 
 from datetime import datetime
+import sqlite3
 
 import discord
 from discord.ext import commands
@@ -42,19 +43,6 @@ class Economy(commands.Cog):
         embed.add_field(name="Net worth:", value=f"`{bank.bank + bank.wallet}`")
         await ctx.send(embed=embed)
 
-    @commands.command()
-    @commands.check(permissions.is_owner)
-    async def addmoney(self, ctx, amount: int, bank_wallet_thing: str, user: discord.Member = None):
-        """This is an dev only command"""
-        if user:
-            await eco.is_registered(user.id)
-            await eco.add_money(user.id, f"{bank_wallet_thing}", amount)
-            await ctx.send(f"added {amount} to {user.name}'s {bank_wallet_thing}")
-        else:
-            user = ctx.author
-            await eco.add_money(ctx.author, f"{bank_wallet_thing}", amount)
-            await ctx.send(f"added {amount} to {user.name}'s {bank_wallet_thing}")
-
 
     @commands.command()
     @is_registered
@@ -71,8 +59,6 @@ class Economy(commands.Cog):
             embed.add_field(name="You worked as a:", value=f"{job}", inline=True)
             embed.add_field(name=f"from working as a {job} you gained:", value=f"No money, you volunteered for this smh, no payment", inline=True)
         else:
-            if job == "Technoblade":
-                embed.add_field(name="Hey... you...", value="Technoblade never dies!"
             await eco.add_money(user.id, "bank", money)
             embed.add_field(name="You worked as a:", value=f"{job}", inline=True)
             embed.add_field(name=f"from working as a {job} you gained:", value=f"{money} dollars!", inline=True)
@@ -95,30 +81,6 @@ class Economy(commands.Cog):
         embed=discord.Embed(title=f"Daily", color=discord.Color.from_rgb(255, 255, 255))
         embed.add_field(name=f"from claiming your daily you gained:", value="1000 dollars")
         await ctx.send(embed=embed)
-#these two commands are untested, some bug fixes may need to be made
-    @commands.command()
-    @commands.check(permissions.is_owner)
-    async def removeuser(self, ctx, user: discord.Member = None):
-        """Dev command for removing user info"""
-        if user:
-
-            await eco.delete_user_account(user.id)
-            await ctx.send(f"User <@{user.id}>'s account info has been deleted")
-        else:
-            await ctx.send("you **MUST** specify a user or ID")
-
-    @commands.command()
-    @commands.check(permissions.is_owner)
-    async def resetall(self, ctx, author: discord.Member = None):
-        """Resets all stats"""
-        if author.id in config["dev"]:
-            if os.path.exists("economy.db"):
-                await os.remove("economy.db")
-                await ctx.send("`economy.db` has been deleted and all progress reset.")
-            else:
-                await ctx.send("All progress was reset or something went wrong.")
-        else:
-            await ctx.send("You are not a developer.")
 
 #might work who knows
     @commands.command(aliases=["slots", "bet"])
@@ -223,31 +185,104 @@ class Economy(commands.Cog):
 
     @commands.command(aliases=["inv"])
     @is_registered
-    async def inventory(self, ctx):
+    async def inventory(self, ctx, user = discord.Member = None):
         """Shows your inventory"""
-        user = ctx.author
         inv = await eco.get_user(user.id)
         embed=discord.Embed(title=f"Inventory", color=discord.Color.from_rgb(255, 255, 255))
+        if user != None:
+            if inv.items == None:
+                embed.add_field(name="Hey!", value="They have no items")
+            else:
+                for item in inv.items:
+                    embed.add_field(name=item.capitalize(), value=f"Price: **{shop['items'][item]['price']}** \nDescription: **{shop['items'][item]['description']}**")
+        else:
+            pass
         if inv.items == None:
             embed.add_field(name="Hey!", value="You have no items")
+        else:
+            pass
         for item in inv.items:
             embed.add_field(name=item.capitalize(), value=f"""Price: **{shop['items'][item]['price']}** \nDescription: **{shop['items'][item]['description']}**""")
         await ctx.send(content="Here is a list of all items in your inventory:", embed=embed)
-        
 
+    @commands.command()
+    async def leaderboard(self, ctx, number: int = 3):
+        """Shows the top x users"""
+        r = eco.get_all_data()
+        embed=discord.Embed(title=f"Leaderboard", color=discord.Color.from_rgb(255, 255, 255))
+        for user in sorted(eco.bank, key=lambda x: eco.bank[{number}]['bank'], reverse=True):
+            embed.add_field(name=f"{user}", value=f"{eco.bank[user]['bank']}")
+        await ctx.send(content=f"Here is the top {number} users:", embed=embed) #this was all done with help by github copilot! And it's untested.
         
-            
-    
+    @commands.group()
+    async def dev(self, ctx):
+        """Shows the developer"""
+        if ctx.invoked_subcommand is None:
+            embed=discord.Embed(title=f"Valid sub commands", color=discord.Color.from_rgb(255, 255, 255))
+            embed.add_field(name="resetall", value="Resets all users")
+            embed.add_field(name="reset", value="Resets a user")
+            embed.add_field(name="additem", value="Adds an item to the shop")
+            embed.add_field(name="addmoney", value="Adds money to a user")
+            embed.add_field(name="removeitem", value="Removes an item from a user")
+            embed.add_field(name="removemoney", value="Removes money from a user")
+            embed.add_field(name="setmoney", value="Sets money for a user")
+        
+        await ctx.send(embed=embed)
+
+    @dev.command()
+    @commands.check(permissions.is_owner)
+    async def additem(self, ctx, item: str, user = discord.Member = None):
+        """Adds an item to an inventory"""
+        item = item.lower()
+        if item not in shop["Items"]:
+            await ctx.send("This item doesn't exist")
+        else:
+            await eco.add_item(user.id, item)
+            await ctx.send(f"You have added {item.capitalize()} to that user's inventory")
+
+    @dev.command()
+    @commands.check(permissions.is_owner)
+    async def removeuser(self, ctx, user: discord.Member = None):
+        """Dev command for removing user info"""
+        if user:
+
+            await eco.delete_user_account(user.id)
+            await ctx.send(f"User <@{user.id}>'s account info has been deleted")
+        else:
+            await ctx.send("you **MUST** specify a user or ID")
+
+    @dev.command()
+    @commands.check(permissions.is_owner)
+    async def resetall(self, ctx, author: discord.Member = None):
+        """Resets all stats"""
+        if author.id in config["dev"]:
+            if os.path.exists("economy.db"):
+                await os.remove("economy.db")
+                await ctx.send("`economy.db` has been deleted and all progress reset.")
+            else:
+                await ctx.send("All progress was reset or something went wrong.")
+        else:
+            await ctx.send("You are not a developer.")
+
+    @dev.command()
+    @commands.check(permissions.is_owner)
+    async def addmoney(self, ctx, amount: int, bank_wallet_thing: str, user: discord.Member = None):
+        """This is an dev only command"""
+        if user:
+            await eco.is_registered(user.id)
+            await eco.add_money(user.id, f"{bank_wallet_thing}", amount)
+            await ctx.send(f"added {amount} to {user.name}'s {bank_wallet_thing}")
+        else:
+            user = ctx.author
+            await eco.add_money(ctx.author, f"{bank_wallet_thing}", amount)
+            await ctx.send(f"added {amount} to {user.name}'s {bank_wallet_thing}")
+
 #TODO
 # - Add a custom cooldown error
-# - Add a shop command
-# | Add items for said shop command
 # - Possibly add per server economy(?)
-# - Add a leaderboard
 
 #CHANGELOG
-# - Added a slots command (stolen from fun.py)
-# - I got bored and added a command that has like a 0.1% chance of paying out money
+# - Added a new group command for all the dev stuff related to economy
 
 def setup(bot):
     bot.add_cog(Economy(bot))
