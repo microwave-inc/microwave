@@ -1,4 +1,5 @@
 from utils import permissions, default, lists, shop
+shop = shop.shop
 import asyncio
 import random
 import os
@@ -35,12 +36,11 @@ class Economy(commands.Cog):
         #this bit here is directly stol- borrowed from their examples (https://github.com/Nohet/DiscordEconomy/blob/main/examples/dpy_base/messageCommands/bot.py)
         await eco.is_registered(user.id)
         bank = await eco.get_user(user.id)
-        
-    
+
         embed=discord.Embed(title=f"{user.name}'s balance", color=discord.Color.from_rgb(255, 255, 255))
         embed.add_field(name="Bank Balance:", value=f"`{bank.bank}`")
-        embed.add_field(name="On hand cash:", value=f"`{bank.wallet}`")
-        embed.add_field(name="Net worth:", value=f"`{bank.bank + bank.wallet}`")
+#        embed.add_field(name="On hand cash:", value=f"`{bank.wallet}`")
+#        embed.add_field(name="Net worth:", value=f"`{bank.bank + bank.wallet}`")
         await ctx.send(embed=embed)
 
 
@@ -109,7 +109,6 @@ class Economy(commands.Cog):
     @is_registered
     @commands.cooldown(1, 3600) #a hours's cooldown
     async def lotto(self, ctx):
-        """This command has a very very low chance of actually paying out but if it does you will be rewarded very well, you will also be logged and might get something in the future."""
         random = random.int(1,100000)
         user = ctx.author
         now = datetime.now()
@@ -125,79 +124,79 @@ class Economy(commands.Cog):
         else:
             await ctx.send("You didn't win, very sad....")
 #I doubt anything below works period half of it is just me letting github copilot do it's thing
-    @commands.group()
+
+    @commands.command()
     @is_registered
     async def shop(self, ctx):
-        """A simple shop command"""
-        if ctx.invoked_subcommand is None:
-            await ctx.send("Valid subcommands are: `buy`, `sell` and `list`")
-
-    @shop.command()
-    @is_registered
-    async def list(self, ctx):
         """Lists all items in the shop"""
         embed=discord.Embed(title=f"Shop", color=discord.Color.from_rgb(255, 255, 255))
-        for item in shop["Items"]:
-
-            if shop['items'][0]["available"]:
-                embed.add_field(name=item[0].capitalize(), value=f"Price: **{shop['items'][0]['price']}** \nDescription: **{shop['items'][0]['description']}**")
+        for item in shop["items"].items():
+            if item[1]["available"]:
+              embed.add_field(name=item[0].capitalize(), value=f"Price: **{item[1]['price']}** \nDescription: **{item[1]['description']}**")
             #taken from https://github.com/Nohet/DiscordEconomy/blob/83808e18ecdd8bea269200d5f37c3f0a666aa863/examples/dpy_base/messageCommands/bot.py#L258
         await ctx.send(content="Here is a list of all items in the shop:", embed=embed)
 
-    @shop.command()
+    @commands.command()
     @is_registered
     async def buy(self, ctx, item: str):
         """Buys an item from the shop"""
         item = item.lower()
         user = ctx.author
         bank = await eco.get_user(user.id)
-        if item in shop["Items"]:
-            if shop["Items"][item]["available"] == True:
-                if bank.bank >= shop["Items"][item]["price"]:
-                    await eco.remove_money(user.id, "bank", shop["Items"][item]["price"])
-                    await eco.add_item(user.id, item)
-                    await ctx.send(f"You have bought {item.capitalize()} for {shop['Items'][item]['price']} dollars")
-                else:
-                    await ctx.send("You don't have enough money")
-            else:
-                await ctx.send("This item is not available")
+        if item not in bank.items:
+          if item in shop["items"]:
+              if shop["items"][item]["available"] == True:
+                  if bank.bank >= shop["items"][item]["price"]:
+                      await eco.remove_money(user.id, "bank", shop["items"][item]["price"])
+                      await eco.add_item(user.id, item)
+                      await ctx.send(f"You have bought {item.capitalize()} for {shop['items'][item]['price']} dollars")
+                  else:
+                      await ctx.send("You don't have enough money")
+              else:
+                  await ctx.send("This item is not available")
+          else:
+              await ctx.send("This item does not exist")
         else:
-            await ctx.send("This item does not exist")
+            await ctx.send("You can only own one of each item!")
 
-    @shop.command()
+    @commands.command()
     @is_registered
     async def sell(self, ctx, item: str):
-        """Sells an item to the shop"""
+        """Sell an item from your inventory"""
         item = item.lower()
         user = ctx.author
         bank = await eco.get_user(user.id)
-        if item not in shop['items'][item]:
+        if item in shop["items"]:
+            if item not in bank.items:
+                await ctx.send("You don't have this item")
+            else:
+                if shop["items"][item]["price"] > 0:
+                    await eco.add_money(user.id, "bank", shop["items"][item]["price"] / 2)
+                    await eco.remove_item(user.id, item)
+                    await ctx.send(f"You have sold {item.capitalize()} for {shop['items'][item]['price'] / 2} dollars")
+                else:
+                    await eco.remove_item(user.id, item)
+                    await ctx.send(f"You have sold {item.capitalize()} for nothing")
+        else:
             await ctx.send("This item does not exist")
-        else:
-            pass
-        if item in bank.items:
-            await eco.remove_item(user.id, item)
-            await eco.add_money(user.id, "bank", shop["Items"][item]["price"])
-            await ctx.send(f"You have sold {item.capitalize()} for {shop['Items'][item]['price']} dollars")
-        else:
-            await ctx.send("You don't have this item")
 
 
     @commands.command(aliases=["inv"])
     @is_registered
-    async def inventory(self, ctx, user = discord.Member = None):
+    async def inventory(self, ctx):
         """Shows your inventory"""
+        user = ctx.author
         inv = await eco.get_user(user.id)
         embed=discord.Embed(title=f"Inventory", color=discord.Color.from_rgb(255, 255, 255))
-        if user != None:
-            if inv.items == None:
-                embed.add_field(name="Hey!", value="They have no items")
-            else:
-                for item in inv.items:
-                    embed.add_field(name=item.capitalize(), value=f"Price: **{shop['items'][item]['price']}** \nDescription: **{shop['items'][item]['description']}**")
-        else:
-            pass
-        if inv.items == None:
+#        if user != None:
+#            if inv.items == None:
+#                embed.add_field(name="Hey!", value="They have no items")
+#            else:
+#                for item in inv.items:
+#                    embed.add_field(name=item.capitalize(), value=f"Price: **{shop['items'][item]['price']}** \nDescription: **{shop['items'][item]['description']}**")
+#        else:
+#            pass
+        if inv.items == "":
             embed.add_field(name="Hey!", value="You have no items")
         else:
             pass
@@ -213,25 +212,10 @@ class Economy(commands.Cog):
         for user in sorted(eco.bank, key=lambda x: eco.bank[{number}]['bank'], reverse=True):
             embed.add_field(name=f"{user}", value=f"{eco.bank[user]['bank']}")
         await ctx.send(content=f"Here is the top {number} users:", embed=embed) #this was all done with help by github copilot! And it's untested.
-        
-    @commands.group()
-    async def dev(self, ctx):
-        """Shows the developer"""
-        if ctx.invoked_subcommand is None:
-            embed=discord.Embed(title=f"Valid sub commands", color=discord.Color.from_rgb(255, 255, 255))
-            embed.add_field(name="resetall", value="Resets all users")
-            embed.add_field(name="reset", value="Resets a user")
-            embed.add_field(name="additem", value="Adds an item to the shop")
-            embed.add_field(name="addmoney", value="Adds money to a user")
-            embed.add_field(name="removeitem", value="Removes an item from a user")
-            embed.add_field(name="removemoney", value="Removes money from a user")
-            embed.add_field(name="setmoney", value="Sets money for a user")
-        
-        await ctx.send(embed=embed)
 
-    @dev.command()
+    @commands.command()
     @commands.check(permissions.is_owner)
-    async def additem(self, ctx, item: str, user = discord.Member = None):
+    async def additem(self, ctx, item: str):
         """Adds an item to an inventory"""
         item = item.lower()
         if item not in shop["Items"]:
@@ -240,7 +224,7 @@ class Economy(commands.Cog):
             await eco.add_item(user.id, item)
             await ctx.send(f"You have added {item.capitalize()} to that user's inventory")
 
-    @dev.command()
+    @commands.command()
     @commands.check(permissions.is_owner)
     async def removeuser(self, ctx, user: discord.Member = None):
         """Dev command for removing user info"""
@@ -251,7 +235,7 @@ class Economy(commands.Cog):
         else:
             await ctx.send("you **MUST** specify a user or ID")
 
-    @dev.command()
+    @commands.command()
     @commands.check(permissions.is_owner)
     async def resetall(self, ctx, author: discord.Member = None):
         """Resets all stats"""
@@ -264,7 +248,7 @@ class Economy(commands.Cog):
         else:
             await ctx.send("You are not a developer.")
 
-    @dev.command()
+    @commands.command()
     @commands.check(permissions.is_owner)
     async def addmoney(self, ctx, amount: int, bank_wallet_thing: str, user: discord.Member = None):
         """This is an dev only command"""
