@@ -15,7 +15,7 @@ listeningstatus = [
 ],
 
 watchingstatus = [
-  f"{len(self.bot.guilds)} guilds", "You mess around", "My cats", "Code break", "The matrix", "twitch.tv/notsavave66", "twitch.tv/systhecat", "yourmom", f"{len(self.bot.users)} users", "Technoblade video's"
+  f"{len(self.bot.guilds)} guilds", "You mess around", "My cats", "Code break", "The matrix", "twitch.tv/notsavave66", "twitch.tv/systhecat", "yourmom", f"{len(self.bot.users)} users", "Technoblade video's", "Technoblade fighting god"
 ],
 
 playingstaus = [
