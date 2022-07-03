@@ -7,19 +7,19 @@ ballresponse = [
 ],
 
 work = [ 
-"Janitor", "Discord Mod", "Redditor", "Profesional Idiot", "Bot Developer", "Microwave", "Miner", "Twitch Streamer", "⬜🟦 (ifykyk)", "Content Creator", "A Microwave Bot developer", "🟧⬛⭐ (yes I know, wow funny)", "pepe the frog", "hobo", "Technoblade"
+"Janitor", "Discord Mod", "Redditor", "Profesional Idiot", "Bot Developer", "Microwave", "Miner", "Twitch Streamer", "⬜🟦 (ifykyk)", "Content Creator", "A Microwave Bot developer", "🟧⬛⭐ (yes I know, wow funny)", "pepe the frog", "hobo", 
 ],
 
 listeningstatus = [
-  "To spotify", "For m!help", f"To {len(self.bot.guilds)} guilds", "For m!help", "Random bs", "To Dear Evan Hansen", "To Grease", "To Heathers", f"To {len(self.bot.users)} users", "How to not get caught commiting murder", "To Technoblade's voice"
+  "To spotify", "For m!help", "For m!help", "Random bs", "To Dear Evan Hansen", "To Grease", "To Heathers", "How to not get caught commiting murder", "To Technoblade's voice"
 ],
 
 watchingstatus = [
-  f"{len(self.bot.guilds)} guilds", "You mess around", "My cats", "Code break", "The matrix", "twitch.tv/notsavave66", "twitch.tv/systhecat", "yourmom", f"{len(self.bot.users)} users", "Technoblade video's", "Technoblade fighting god"
+  "You mess around", "My cats", "Code break", "The matrix", "twitch.tv/notsavave66", "twitch.tv/systhecat", "yourmom", "Technoblade video's"
 ],
 
 playingstaus = [
-  "Roblox", "Minecraft", "Sword with sauce", "Ravenfield", "With my cats", "With my devs", "With my devs sanity", "GODISGONEGODISDEADNOTHINGISREAL", "Hypixel", "TECHNOBLADE NEVER DIES"
+  "Roblox", "Minecraft", "Sword with sauce", "Ravenfield", "With my cats", "With my devs", "With my devs sanity", "GODISGONEGODISDEADNOTHINGISREAL", "Hypixel"
 ],
 
 streamingstatus = [
