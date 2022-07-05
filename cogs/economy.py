@@ -183,19 +183,19 @@ class Economy(commands.Cog):
 
     @commands.command(aliases=["inv"])
     @is_registered
-    async def inventory(self, ctx):
+    async def inventory(self, ctx, user: discord.Member = None):
         """Shows your inventory"""
         user = ctx.author
         inv = await eco.get_user(user.id)
         embed=discord.Embed(title=f"Inventory", color=discord.Color.from_rgb(255, 255, 255))
-#        if user != None:
-#            if inv.items == None:
-#                embed.add_field(name="Hey!", value="They have no items")
-#            else:
-#                for item in inv.items:
-#                    embed.add_field(name=item.capitalize(), value=f"Price: **{shop['items'][item]['price']}** \nDescription: **{shop['items'][item]['description']}**")
-#        else:
-#            pass
+        if user != None:
+            if inv.items == None:
+                embed.add_field(name="Hey!", value="They have no items")
+            else:
+                for item in inv.items:
+                    embed.add_field(name=item.capitalize(), value=f"Price: **{shop['items'][item]['price']}** \nDescription: **{shop['items'][item]['description']}**")
+        else:
+            pass
         if inv.items == "":
             embed.add_field(name="Hey!", value="You have no items")
         else:

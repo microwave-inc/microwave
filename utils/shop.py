@@ -36,5 +36,17 @@ shop = {
             "price": 0,
             "description": "A limited time item as tribute to the god Technoblade! (won't be available after July)"
         },
+        "glock": {
+            "name": "Glock 17",
+            "available": True,
+            "price": 1,
+            "description": "Why is this gun so affordable"
+        },
+        "farm": {
+            "name": "Farm",
+            "available": True,
+            "price": 10000,
+            "description": "A farm, thats it"
+        },
     }
 }
