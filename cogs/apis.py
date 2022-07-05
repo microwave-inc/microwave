@@ -224,14 +224,14 @@ class apis(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command() # I am terrible at coding if this doesn't work
-    async def idsearch(self, ctx, userid: int):
+    async def idsearch(self, ctx, userid: discord.member.id = None):
         r = requests.get(f"https://discord-api.microwavebot.tech/discord/user/{userid}")
         a = random.randint(0,255)
         b = random.randint(0,255)
         c = random.randint(0,255)
         embedcolor = discord.Color.from_rgb(a,b,c)
-        if userid == "":
-            await ctx.send("Please add an ID")
+        if userid == None:
+            await ctx.send("Please add an ID (or a valid one)")
         else:
             embed=discord.Embed(title=f"ID search", colour=embedcolor, thumbnail=r.json()["url"])
             embed.add_field(name="Username:", value=r.json()["username"])

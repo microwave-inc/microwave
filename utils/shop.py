@@ -48,5 +48,36 @@ shop = {
             "price": 10000,
             "description": "A farm, thats it"
         },
+        "randomfamily": {
+            "name": "A Random Family",
+            "available": True,
+            "price": 10000,
+            "description": "A random family that was illegally bought from the internet"
+        },
+        "spotify": {
+            "name": "A spotify premium subscription",
+            "available": True,
+            "price": 10,
+            "description": "A spotify premium subscription despite you not having one of your own"
+        },
+        "youtube": {
+            "name": "A youtube premium subscription",
+            "available": True,
+            "price": 10,
+            "description": "A youtube premium subscription despite you not having one of your own"
+        },
+        "twitch": {
+            "name": "A twitch premium subscription",
+            "available": True,
+            "price": 10,
+            "description": "Ew you have a pokemane subscription"
+        },
+        "discord": {
+            "name": "A discord nitro subscription",
+            "available": True,
+            "price": 10,
+            "description": "A discord nitro subscription despite you not having one of your own"
+        },
+        
     }
 }

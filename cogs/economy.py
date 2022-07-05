@@ -212,14 +212,17 @@ class Economy(commands.Cog):
         if item not in shop["items"]:
             await ctx.send("This item doesn't exist")
         else:
-            if user != None:
+            if user is not eco.is_registered(user):
                 await eco.is_registered(user)
-                await eco.add_item(user.id, item)
-                await ctx.send(f"You have added {item.capitalize()} to {user}'s inventory")
             else:
-                await eco.is_registered(user)
-                await eco.add_item(ctx.author.id, item)
-                await ctx.send(f"You have added {item.capitalize()} to your inventory")
+                if user != None:
+                    await eco.is_registered(user)
+                    await eco.add_item(user.id, item)
+                    await ctx.send(f"You have added {item.capitalize()} to {user}'s inventory")
+                else:
+                    await eco.is_registered(user)
+                    await eco.add_item(ctx.author.id, item)
+                    await ctx.send(f"You have added {item.capitalize()} to your inventory")
 
     @commands.command()
     @commands.check(permissions.is_owner)
@@ -234,17 +237,20 @@ class Economy(commands.Cog):
 
     @commands.command()
     @commands.check(permissions.is_owner)
-    async def resetall(self, ctx):
+    async def resetall(self, ctx, conferm: bool = False):
         """Resets all stats"""
         user = ctx.author
-        if user.id in config["devs"]:
-            if os.path.exists("economy.db"):
-                os.remove("economy.db")
-                await ctx.send("`economy.db` has been deleted and all progress reset.")
+        if conferm == False:
+            await ctx.send("You must confirm this command with `resetall True`")
+        elif conferm == True:
+            if user.id in config["devs"]:
+                if os.path.exists("economy.db"):
+                    os.remove("economy.db")
+                    await ctx.send("`economy.db` has been deleted and all progress reset.")
+                else:
+                    await ctx.send("All progress was reset or something went wrong.")
             else:
-                await ctx.send("All progress was reset or something went wrong.")
-        else:
-            await ctx.send("You are not a developer.")
+                await ctx.send("You are not a developer.")
 
     @commands.command()
     @commands.check(permissions.is_owner)
@@ -258,6 +264,36 @@ class Economy(commands.Cog):
             user = ctx.author
             await eco.add_money(ctx.author, f"{bank_wallet_thing}", amount)
             await ctx.send(f"added {amount} to {user.name}'s {bank_wallet_thing}")
+
+    @commands.command()
+    @is_registered
+    async def deposit(self, ctx, amount: int):
+        """Deposit money into your bank account"""
+        user = ctx.author
+        r = await eco.get_user(user.id)
+
+        if amount > r.bank:
+            await ctx.send("You don't have that much money")
+        else:
+            await eco.is_registered(user.id)
+            await eco.remove_money(user.id, "wallet", amount)
+            await eco.add_money(user.id, "bank", amount)
+            await ctx.send(f"You have deposited {amount} dollars into your bank account")
+
+    @commands.command()
+    @is_registered
+    async def withdraw(self, ctx, amount: int):
+        """Withdraw money from your bank account"""
+        user = ctx.author
+        r = await eco.get_user(user.id)
+
+        if amount > r.bank:
+            await ctx.send("You don't have that much money")
+        else:
+            await eco.is_registered(user.id)
+            await eco.remove_money(user.id, "bank", amount)
+            await eco.add_money(user.id, "wallet", amount)
+            await ctx.send(f"You have withdrawn {amount} dollars from your bank account")
 
 #TODO
 # - Add a custom cooldown error
