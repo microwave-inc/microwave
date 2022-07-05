@@ -187,8 +187,8 @@ class Economy(commands.Cog):
         """Shows your inventory"""
         user = ctx.author
         inv = await eco.get_user(user.id)
-        embed=discord.Embed(title=f"Inventory", color=discord.Color.from_rgb(255, 255, 255))
-        if user != None:
+        embed=discord.Embed(title=f" {user}'s Inventory", color=discord.Color.from_rgb(255, 255, 255))
+        if user != ctx.author:
             if inv.items == None:
                 embed.add_field(name="Hey!", value="They have no items")
             else:
