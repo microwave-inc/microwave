@@ -166,10 +166,10 @@ class Owner(commands.Cog):
         except TypeError:
             await ctx.send("You need to either provide an image URL or upload one with the command")
 
-    @commands.command()
+    @commands.command(aliases=["kill", "shutdown"])
     @commands.check(permissions.is_owner)
-    async def kill(self, ctx):
-        """ Kill the bot. """
+    async def restart(self, ctx):
+        """ Restarts the bot. """
         token = os.getenv("TOKEN")
         await ctx.send("Shutting down...")
         await self.bot.close()

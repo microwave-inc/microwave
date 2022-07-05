@@ -212,7 +212,7 @@ class Economy(commands.Cog):
         if item not in shop["items"]:
             await ctx.send("This item doesn't exist")
         else:
-            if user is not eco.is_registered(user):
+            if user is not await eco.is_registered(user):
                 await eco.is_registered(user)
             else:
                 if user != None:

@@ -174,7 +174,7 @@ class apis(commands.Cog):
     async def ISS(self, ctx):
         r = requests.get("http://api.open-notify.org/iss-now.json")
         loclong = r.json()["iss_position"]["longitude"]
-        loclat = r.json()["iss_position"]["latitude"]
+        longlat = r.json()["iss_position"]["latitude"]
         a = random.randint(0,255)
         b = random.randint(0,255)
         c = random.randint(0,255)
@@ -224,7 +224,7 @@ class apis(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command() # I am terrible at coding if this doesn't work
-    async def idsearch(self, ctx, userid: discord.member.id = None):
+    async def idsearch(self, ctx, userid: discord.member = None):
         r = requests.get(f"https://discord-api.microwavebot.tech/discord/user/{userid}")
         a = random.randint(0,255)
         b = random.randint(0,255)
