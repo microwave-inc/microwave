@@ -2,6 +2,7 @@ import discord
 import requests
 import random
 import locale
+import os
 locale.setlocale(locale.LC_ALL, 'en_US.utf8')
 
 from datetime import datetime
@@ -16,7 +17,7 @@ else:
 
 class apis(commands.Cog):
     """The new location for the API stuff"""
-        def __init__(self, bot):
+    def __init__(self, bot):
         self.bot = bot
         self.config = default.config()
 
@@ -219,24 +220,24 @@ class apis(commands.Cog):
         c = random.randint(0,255)
         embedcolor = discord.Color.from_rgb(a,b,c)
         embed=discord.Embed(title="Breaking bad quote", colour=embedcolor)
-        embed.add_field(name=f"{r.json()["author"]} said:", value=r.json()["quote"])
+        embed.add_field(name=f"Here is your quote:", value=r.json()["quote"])
         await ctx.send(embed=embed)
 
     @commands.command() # I am terrible at coding if this doesn't work
-    async def idsearch(self, ctx, userid: int)
-    r = requests.get(f"https://discord-api.microwavebot.tech/discord/user/{userid}")
-    a = random.randint(0,255)
-    b = random.randint(0,255)
-    c = random.randint(0,255)
-    embedcolor = discord.Color.from_rgb(a,b,c)
-    if userid == "":
-        await ctx.send("Please add an ID")
-    else:
-        embed=discord.Embed(title=f"ID search for {r.json()["username"]}", colour=embedcolor, thumbnail=r.json()["url"])
-        embed.add_field(name="Username:", value=r.json()["username"])
-        embed.add_field(name="Discrim:", value=r.json()["discriminator"])
-        embed.add_field(name="Are they a bot:", value=r.json()["Bot"])
-        embed.set_footer(text="Tada!")
+    async def idsearch(self, ctx, userid: int):
+        r = requests.get(f"https://discord-api.microwavebot.tech/discord/user/{userid}")
+        a = random.randint(0,255)
+        b = random.randint(0,255)
+        c = random.randint(0,255)
+        embedcolor = discord.Color.from_rgb(a,b,c)
+        if userid == "":
+            await ctx.send("Please add an ID")
+        else:
+            embed=discord.Embed(title=f"ID search", colour=embedcolor, thumbnail=r.json()["url"])
+            embed.add_field(name="Username:", value=r.json()["username"])
+            embed.add_field(name="Discrim:", value=r.json()["discriminator"])
+            embed.add_field(name="Are they a bot:", value=r.json()["Bot"])
+            embed.set_footer(text="Tada!")
         await ctx.send(embed=embed)
 
     @commands.command() #this command has a like 90% chance of working

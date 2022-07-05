@@ -3,10 +3,12 @@ import discord
 import time
 from dotenv import load_dotenv
 load_dotenv()
-from utils import default
+from utils import default, lists
 from utils.data import Bot, HelpFormat
 from datetime import datetime
 from pretty_help import DefaultMenu, PrettyHelp
+import random
+from discord.ext import tasks
 #define things here
 color = discord.Color.from_rgb(255,255,255)
 token = os.getenv("TOKEN")
@@ -26,6 +28,7 @@ bot = Bot(
 )
 
 bot.help_command = PrettyHelp(navigation=menu, color=color)
+
 
 #loads cogs
 for file in os.listdir("cogs"):

@@ -130,31 +130,6 @@ class Owner(commands.Cog):
     async def change(self, ctx):
         if ctx.invoked_subcommand is None:
             await ctx.send_help(str(ctx.command))
-    #untested, works in theory
-    @change.command(name="changelog")
-    @commands.check(permissions.is_owner)
-    async def changelog(self, ctx, *, changelog_msg: str, version: str):
-        """ Change playing status. """
-        now = datetime.now()
-        localtime = reference.LocalTimezone()
-        timezone = localtime.tzname(now)
-        time = now.strftime("%a, %d %b %Y %I:%M %p " + timezone)
-        if version = "":
-            pass 
-        else:
-            self.change_config_value("version", "V" + version)
-            version_text = "V" + version 
-            await ctx.send(f"Version updated to `{version_text}`")
-        if changelog_msg = "":
-            await ctx.send("Changelog message cannot be empty ._.")
-        else:
-            self.change_config_value("changelog", changelog_msg)
-            self.change_config_value("lastupdate", time)
-            await ctx.send(f"Successfully changed changelog message status to **{changelog_msg}**")
-        except discord.InvalidArgument as err:
-            await ctx.send(err)
-        except Exception as e:
-            await ctx.send(e)
 
     @change.command(name="nickname")
     @commands.check(permissions.is_owner)
@@ -190,6 +165,15 @@ class Owner(commands.Cog):
             await ctx.send(err)
         except TypeError:
             await ctx.send("You need to either provide an image URL or upload one with the command")
+
+    @commands.command()
+    @commands.check(permissions.is_owner)
+    async def kill(self, ctx):
+        """ Kill the bot. """
+        token = os.getenv("TOKEN")
+        await ctx.send("Shutting down...")
+        await self.bot.close()
+        await os.system("~/Desktop/bot.sh")
 
 #source: https://github.com/fourjr/eval-bot/blob/master/examples/cog.py
     @commands.command(name='eval')

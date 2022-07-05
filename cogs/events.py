@@ -76,31 +76,20 @@ class Events(commands.Cog):
             print(f"{ctx.guild.name} > {ctx.author} > {ctx.message.clean_content}")
         except AttributeError:
             print(f"Private message > {ctx.author} > {ctx.message.clean_content}")
+        if ctx.author.id in lists.blacklistedids:
+            return await ctx.send("You are blacklisted from using this bot. If you think this is a mistake, please contact us at blacklists@microwavebot.tech")
+        else:
+            pass
 
     @commands.Cog.listener()
     async def on_ready(self):
         """ The function that activates when boot was completed """
+        
         if not hasattr(self.bot, "uptime"):
             self.bot.uptime = datetime.utcnow()
 
-        #God I hope this works if not I have t redo it all
-        @tasks.loop(seconds=20.0)
-        async def statuschanger(self):
-            randomstatusnumber = random.int(1,4)
-
-            if randomstatusnumber == 1:
-                status = random.choice(lists.listeningstatus)
-                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=status))
-            elif randomstatusnumber == 2:
-                status = random.choice(lists.watchingstatus)
-                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
-            elif randomstatusnumber == 3:
-                status = random.choice(lists.playingstatus)
-                await self.bot.change_presence(activity=discord.Game(name=status))
-            elif randomstatusnumber == 4:
-                status = random.choice(lists.streamingstatus)
-                await self.bot.change_presence(activity=discord.Streaming(name="Join us on twitch!", url=status))
-
+        status = random.choice(lists.listeningstatus)
+        await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=status))
         
         # Indicate that the bot has successfully booted up
         print(f"Ready: {self.bot.user} | Servers: {len(self.bot.guilds)} | Users: {len(self.bot.users)} | Version: {self.config['version']} | Last Update: {self.config['lastupdate']}")

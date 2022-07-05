@@ -25,3 +25,7 @@ playingstaus = [
 streamingstatus = [
   "https://twitch.tv/notsavave66", "https://twitch.tv/systhecat"
 ]
+
+blacklistedids = [
+  
+]

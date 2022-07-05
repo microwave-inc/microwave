@@ -39,8 +39,8 @@ class Economy(commands.Cog):
 
         embed=discord.Embed(title=f"{user.name}'s balance", color=discord.Color.from_rgb(255, 255, 255))
         embed.add_field(name="Bank Balance:", value=f"`{bank.bank}`")
-#        embed.add_field(name="On hand cash:", value=f"`{bank.wallet}`")
-#        embed.add_field(name="Net worth:", value=f"`{bank.bank + bank.wallet}`")
+        embed.add_field(name="On hand cash:", value=f"`{bank.wallet}`")
+        embed.add_field(name="Net worth:", value=f"`{bank.bank + bank.wallet}`")
         await ctx.send(embed=embed)
 
 
@@ -132,7 +132,7 @@ class Economy(commands.Cog):
         embed=discord.Embed(title=f"Shop", color=discord.Color.from_rgb(255, 255, 255))
         for item in shop["items"].items():
             if item[1]["available"]:
-              embed.add_field(name=item[0].capitalize(), value=f"Price: **{item[1]['price']}** \nDescription: **{item[1]['description']}**")
+              embed.add_field(name=item[1]["name"].capitalize(), value=f"Price: **{item[1]['price']}** \nDescription: **{item[1]['description']}**")
             #taken from https://github.com/Nohet/DiscordEconomy/blob/83808e18ecdd8bea269200d5f37c3f0a666aa863/examples/dpy_base/messageCommands/bot.py#L258
         await ctx.send(content="Here is a list of all items in the shop:", embed=embed)
 
@@ -205,24 +205,21 @@ class Economy(commands.Cog):
         await ctx.send(content="Here is a list of all items in your inventory:", embed=embed)
 
     @commands.command()
-    async def leaderboard(self, ctx, number: int = 3):
-        """Shows the top x users"""
-        r = eco.get_all_data()
-        embed=discord.Embed(title=f"Leaderboard", color=discord.Color.from_rgb(255, 255, 255))
-        for user in sorted(eco.bank, key=lambda x: eco.bank[{number}]['bank'], reverse=True):
-            embed.add_field(name=f"{user}", value=f"{eco.bank[user]['bank']}")
-        await ctx.send(content=f"Here is the top {number} users:", embed=embed) #this was all done with help by github copilot! And it's untested.
-
-    @commands.command()
     @commands.check(permissions.is_owner)
-    async def additem(self, ctx, item: str):
+    async def additem(self, ctx, item: str, user: discord.member = None):# = discord.member = None):
         """Adds an item to an inventory"""
         item = item.lower()
-        if item not in shop["Items"]:
+        if item not in shop["items"]:
             await ctx.send("This item doesn't exist")
         else:
-            await eco.add_item(user.id, item)
-            await ctx.send(f"You have added {item.capitalize()} to that user's inventory")
+            if user != None:
+                await eco.is_registered(user)
+                await eco.add_item(user.id, item)
+                await ctx.send(f"You have added {item.capitalize()} to {user}'s inventory")
+            else:
+                await eco.is_registered(user)
+                await eco.add_item(ctx.author.id, item)
+                await ctx.send(f"You have added {item.capitalize()} to your inventory")
 
     @commands.command()
     @commands.check(permissions.is_owner)
@@ -237,11 +234,12 @@ class Economy(commands.Cog):
 
     @commands.command()
     @commands.check(permissions.is_owner)
-    async def resetall(self, ctx, author: discord.Member = None):
+    async def resetall(self, ctx):
         """Resets all stats"""
-        if author.id in config["dev"]:
+        user = ctx.author
+        if user.id in config["devs"]:
             if os.path.exists("economy.db"):
-                await os.remove("economy.db")
+                os.remove("economy.db")
                 await ctx.send("`economy.db` has been deleted and all progress reset.")
             else:
                 await ctx.send("All progress was reset or something went wrong.")
