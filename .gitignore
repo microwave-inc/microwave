@@ -1,9 +1,10 @@
 .gitignore
 .vscode/
-unused/
+*unused*
 */__pycache__/
-*env
-config.json
+*env*
+config.*
 *test*
 economy.db
 winners.txt
+*/cron.py
