@@ -1,4 +1,4 @@
-> We will be moving back to discord.py as it will be reciving it's v2 update, this will cause economy to not function, technically you could stay with pycord but it will be unsupported by us until further notice.
+> This repo will no longer be maintained due to changes within pycord and discord.py 2.0 updates that have broken the bot
 # Welcome to Microwave bot's official repo
 Here you will find many things you can use for your bot, have an issue? shoot us an [email](mailto:microwave@microwavebot.tech) or open an issue
 
